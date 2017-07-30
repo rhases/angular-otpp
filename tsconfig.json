@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "declaration": true,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "baseUrl": "src",
+    "lib": ["dom", "es6"],
+    "importHelpers": true,
+    "paths": {
+        "angular-otpp": ["./index"]
+    },
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "demo/**/*.ts"
+  ],
+  "compileOnSave": false
+}

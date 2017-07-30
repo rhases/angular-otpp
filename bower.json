@@ -1,0 +1,40 @@
+{
+  "name": "angular-otpp",
+  "author": "Gabriel S. Rodrigues <gabrielsr@gmail.com>",
+  "contributors": [
+    "Gabriel S. Rodrigues <gabrielsr@gmail.com>"
+  ],
+  "main": "bundles/angular-otpp.umd.min.js",
+  "description": "AngularJS directive which takes JSON representing a form and renders to HTML",
+  "keywords": [
+    "AngularJs",
+    "form",
+    "one thing per page",
+    "otpp",
+    "json",
+    "html"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "tests",
+    "local-examples",
+    ".editorconfig",
+    ".gitignore",
+    ".eslintrc",
+    ".npmignore",
+    ".travis.yml",
+    "CONTRIBUTING.md",
+    "karma.conf.js",
+    "src",
+    "webpack.config.js",
+    "coverage",
+    "other",
+    ".test",
+    "scripts"
+  ],
+  "dependencies": {
+    "angular": "^1.6.x",
+    "api-check": "^7.0.0"
+  }
+}
