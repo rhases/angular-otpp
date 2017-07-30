@@ -1,21 +1,11 @@
 import { ThingsService } from '../service/things.service'
 
-export default class ThingsController{
-  thingsService:ThingsService;
+export default function ThingsController($scope:any, thingsService:ThingsService, $stateParams:any ){
 
-  static $inject = ['$scope', 'thingsService', '$stateParams'];
-  constructor(
-      $scope:any,
-      thingsService:ThingsService,
-      $stateParams:any) {
+  thingsService.load($scope.flow, $scope.things, $scope.model, $stateParams.state);
+  $scope.current = thingsService.getCurrentThing();
 
-    this.thingsService = thingsService;
-    thingsService.load($scope.flow, $scope.things, $scope.model, $stateParams.state);
-    $scope.current = thingsService.getCurrentThing();
-
-  }
-
-  next() {
-    this.thingsService.next();
+  $scope.next = function() {
+    thingsService.next();
   }
 }
