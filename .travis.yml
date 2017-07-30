@@ -8,7 +8,7 @@ cache:
 node_js:
 - '6'
 before_install:
-- npm i -g yarn --cache-min 999999999
+- npm i -g yarn shx --cache-min 999999999
 install:
 - yarn
 before_script:
