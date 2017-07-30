@@ -1,4 +1,4 @@
-import { Flow } from '../components/flow/flow';
+import { Flow } from '../components/flow';
 import { Thing } from '../components/thing';
 
 import { ExecutionService } from './execution.service';
@@ -10,10 +10,10 @@ export class ThingsService {
   executionService: ExecutionService;
   $state:any;
 
+  static $inject = ['$state'];
   constructor($state){
     this.$state = $state;
   }
-
 
   load(flow, things, model, state){
     this.executionService = new ExecutionService(flow, things, model);
@@ -34,9 +34,4 @@ export class ThingsService {
   }
 
 
-}
-
-// @ngInject
-export function thingsServiceFactory($state){
-  return new ThingsService($state);
 }

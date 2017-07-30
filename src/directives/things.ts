@@ -14,23 +14,7 @@ function thing() {
       model: '=',
       state: '='
     },
-    //controller: 'FormlyFormController',
-    link: thingLink,
-    controller: ThingsController
+    controller: 'ThingsController'
   }
 
-  function thingLink(scope, el, attrs, thingsService) {
-
-
-  }
-
-  // @ngInject
-  function ThingsController($scope, thingsService, $stateParams){
-    thingsService.load($scope.flow, $scope.things, $scope.model, $stateParams.state);
-    $scope.current = thingsService.getCurrentThing();
-
-    $scope.next  = function() {
-      thingsService.next();
-    }
-  }
 }

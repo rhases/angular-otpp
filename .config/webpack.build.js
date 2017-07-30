@@ -20,7 +20,10 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: ['awesome-typescript-loader?declaration=false'],
+        use: [
+          { loader: 'ng-annotate-loader' },
+          'awesome-typescript-loader?declaration=false'
+          ],
       },
       {
         test: /\.html$/,
