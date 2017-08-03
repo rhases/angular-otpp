@@ -1,4 +1,4 @@
-import { Flow } from '../components/flow';
+import { Transition } from '../components/transition';
 import { Thing } from '../components/thing';
 
 import { ExecutionService } from './execution.service';
@@ -8,30 +8,48 @@ import * as _ from 'lodash';
 export class ThingsService {
 
   executionService: ExecutionService;
-  $state:any;
+  $state: any;
+
+  model: any;
+
+  onfinish: Function;
 
   static $inject = ['$state'];
-  constructor($state){
+  constructor($state) {
     this.$state = $state;
   }
 
-  load(flow, things, model, state){
-    this.executionService = new ExecutionService(flow, things, model);
-    if(state){
+  load(transitions, things, model, state, onfinish) {
+    this.model = model;
+    this.onfinish = onfinish;
+    this.executionService = new ExecutionService(transitions, things, model);
+    if (state) {
       this.executionService.go(state);
-    }else {
+    } else {
       this.executionService.start();
     }
   }
 
-  getCurrentThing(){
+  getCurrentThing() {
     return this.executionService.getCurrent();
   }
 
-  next(){
-    var nextThing = this.executionService.next();
-    this.$state.go(this.$state.current.name, {state: nextThing.key})
-  }
+  next() {
+    var current = this.executionService.getCurrent();
 
+    this.model = _.merge(this.model, current.scope);
+
+    var nextThing = this.executionService.next();
+
+    if (!nextThing) {
+      // Tell to controller that is finished
+      if (this.onfinish) {
+        this.onfinish(this.model);
+      }
+    } else {
+      this.$state.go(this.$state.current.name, { state: nextThing.key })
+    }
+
+  }
 
 }

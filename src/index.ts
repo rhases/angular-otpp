@@ -7,7 +7,7 @@ import ThingsController from './directives/things.controller'
 
 import { ThingsService }  from './service/things.service'
 
-export { Flow } from './components/flow';
+export { Transition } from './components/transition';
 export { Thing } from './components/thing';
 
 const ngModuleName = 'otpp'

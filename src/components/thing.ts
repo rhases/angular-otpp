@@ -2,8 +2,9 @@
 export class Thing {
   key: string;
   title: string;
-  fields:Array<any>;
+  fields: Array<any>;
 
-  constructor(
-  ) {}
+  scope?: any;
+
+  constructor() {}
 }
