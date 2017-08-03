@@ -1,7 +1,7 @@
 'use strict';
 
 import { ExecutionService } from '../service/execution.service';
-import mockFlow  from './flow.mock';
+import mockTransitions  from './transitions.mock';
 import mockThings  from './things.mock';
 
 
@@ -15,7 +15,7 @@ describe('OTPP: ExecutionService', function() {
 
   beforeEach(function(){
     this.scope = {}
-    this.executionService = new ExecutionService(mockFlow, mockThings, this.scope );
+    this.executionService = new ExecutionService(mockTransitions, mockThings, this.scope );
     this.executionService.start();
   });
 
@@ -42,9 +42,9 @@ describe('OTPP: ExecutionService', function() {
   });
 
   // it('should it fork evaluating a condition', function() {
-  //   this.flowService.next() //
-  //   expect(this.flowService.next()).toEqual("state-2");
-  //   expect(this.flowService.current).toEqual("state-2");
+  //   this.transitionsService.next() //
+  //   expect(this.transitionsService.next()).toEqual("state-2");
+  //   expect(this.transitionsService.current).toEqual("state-2");
   // });
 
 

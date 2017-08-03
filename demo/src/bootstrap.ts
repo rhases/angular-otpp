@@ -3,15 +3,12 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 const uiBootstrap = require('angular-ui-bootstrap');
 
-const otpp = require('angular-otpp');
-
+import otpp from 'angular-otpp';
 
 import { MainController } from './app.component';
 
-console.log('Hello World!')
-
 var app = angular.module('angularOtppDemoApp', [
-  'otpp',
+  otpp,
   uiRouter,
   uiBootstrap])
 .config(routeConfig)

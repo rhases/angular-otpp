@@ -9,12 +9,12 @@ function thing() {
     replace: true,
     transclude: true,
     scope: {
-      flow: '=',
+      transitions: '=',
       things: '=',
+
       model: '=',
       state: '='
     },
     controller: 'ThingsController'
   }
-
 }
