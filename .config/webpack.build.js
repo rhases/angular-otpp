@@ -4,10 +4,10 @@ module.exports = {
   entry: './src/index',
   devtool: 'source-map',
   output: {
-    path: __dirname + '/../bundles',
-    filename: 'angular-otpp.umd.js',
-    libraryTarget: 'umd',
+    path: __dirname + '/../dist',
+    filename: 'index.js',
     library: 'angular-otpp'
+    libraryTarget: 'commonjs2',
   },
   externals: [
     /^\@angular\//,
