@@ -3,12 +3,13 @@ const formly = require('angular-formly');
 const formlyBootstrapTemplates = require('angular-formly-templates-bootstrap');
 
 import things from './directives/things'
-import ThingsController from './directives/things.controller'
 
-import { ThingsService }  from './service/things.service'
+import { ThingsService }  from './services/things.service'
+import { FormAnswerService } from './services/form-answer.service';
 
 export { Transition } from './components/transition';
 export { Thing } from './components/thing';
+
 
 const ngModuleName = 'otpp'
 
@@ -20,11 +21,11 @@ const ngModule = angular.module(ngModuleName, [
 ])
 
 //ngModule.constant('formlyVersion', VERSION) // <-- webpack variable
-
 //ngModule.provider('formlyConfig', formlyConfig)
 
-ngModule.service('thingsService', ThingsService)
-ngModule.controller('ThingsController', ThingsController)
+ngModule.service('ThingsService', ThingsService)
+ngModule.service('FormAnswerService', FormAnswerService)
+
 ngModule.directive('things', things)
 
 //ngModule.run(formlyCustomTags)

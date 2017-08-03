@@ -1,4 +1,5 @@
 const angular = require('angular');
+import ThingsController from './things.controller'
 
 export default thing;
 
@@ -17,6 +18,6 @@ function thing() {
 
       onfinish: '&'
     },
-    controller: 'ThingsController'
+    controller: ThingsController
   }
 }

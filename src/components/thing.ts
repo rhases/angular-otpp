@@ -1,4 +1,3 @@
-
 export class Thing {
   key: string;
   title: string;

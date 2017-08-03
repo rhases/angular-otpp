@@ -1,6 +1,6 @@
 'use strict';
 
-import { TransitionsService } from '../service/transitions.service';
+import { TransitionsService } from '../services/transitions.service';
 import mockTransitions  from './transitions.mock';
 
 describe('OTPP: TransitionsService', function() {

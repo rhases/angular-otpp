@@ -8,26 +8,21 @@ import * as _ from 'lodash';
 export class ThingsService {
 
   executionService: ExecutionService;
-  $state: any;
-
-  model: any;
 
   onfinish: Function;
 
-  static $inject = ['$state'];
-  constructor($state) {
-    this.$state = $state;
-  }
+  /*@ngInject*/
+  constructor(private $state, private FormAnswerService) { }
 
-  load(transitions, things, model, state, onfinish) {
-    this.model = model;
-    this.onfinish = onfinish;
-    this.executionService = new ExecutionService(transitions, things, model);
+  load(transitions, things, state, onfinish) {
+    this.executionService = new ExecutionService(transitions, things, this.FormAnswerService.get());
     if (state) {
       this.executionService.go(state);
     } else {
       this.executionService.start();
     }
+
+    this.onfinish = onfinish;
   }
 
   getCurrentThing() {
@@ -37,14 +32,14 @@ export class ThingsService {
   next() {
     var current = this.executionService.getCurrent();
 
-    this.model = _.merge(this.model, current.scope);
+    this.FormAnswerService.add(current.scope);
 
     var nextThing = this.executionService.next();
 
     if (!nextThing) {
       // Tell to controller that is finished
       if (this.onfinish) {
-        this.onfinish(this.model);
+        this.onfinish(this.FormAnswerService.get());
       }
     } else {
       this.$state.go(this.$state.current.name, { state: nextThing.key })

@@ -6,12 +6,11 @@ import PizzaForm  from './pizza.form';
 
 export class MainController {
 
-  formAnswer: any;
+  formAnswer: any = { oldProperty: 'from controller' };
   form: any = PizzaForm;
 
   /*@ngInject*/
-  constructor(FormAnswerService, private $window) {
-    this.formAnswer = FormAnswerService.get();
+  constructor(private $window) {
   }
 
   finish() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { ExecutionService } from '../service/execution.service';
+import { ExecutionService } from '../services/execution.service';
 import mockTransitions  from './transitions.mock';
 import mockThings  from './things.mock';
 
