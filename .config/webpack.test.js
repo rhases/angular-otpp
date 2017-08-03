@@ -21,6 +21,8 @@ module.exports = {
         exclude: [/node_modules/]
       },
       { test: /\.html$/, use: ['raw-loader'] },
+      { test: /\.pug$/, use: ['raw-loader'] },
+      { test: /\.scss$/, use: ['raw-loader'] }
     ]
   },
   plugins: [],

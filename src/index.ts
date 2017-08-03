@@ -14,8 +14,6 @@ const ngModuleName = 'otpp'
 
 export default ngModuleName
 
-
-
 const ngModule = angular.module(ngModuleName, [
   formly,
   formlyBootstrapTemplates

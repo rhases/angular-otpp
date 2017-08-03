@@ -29,7 +29,9 @@ module.exports = {
   module: {
     rules: [
       { test: /\.ts$/, use: ['awesome-typescript-loader?declaration=false'] },
+      { test: /\.pug$/, use: ['raw-loader','pug-html-loader'] },
       { test: /\.html$/, use: ['raw-loader'] },
+      { test: /\.scss$/, use: ["style-loader", "css-loader", "sass-loader"] }
     ]
   },
   plugins: [
