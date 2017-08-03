@@ -20,9 +20,12 @@
     "one thing per page",
     "otpp"
   ],
-  "main": "bundles/angular-otpp.umd.js",
+  "main": "dist/index.js",
   "module": "lib/src/index.js",
   "typings": "lib/src/index.d.ts",
+  "scripts": {
+    "release": "standard-version"
+  },
   "scripts": {
     "contrib:add": "all-contributors add",
     "contrib:generate": "all-contributors generate",
@@ -33,9 +36,9 @@
     "build": "npm run build:lib && npm run build:bundles:compile",
     "prebuild:lib": "shx rm -rf ./lib",
     "build:lib": "npm run ngc -- --project tsconfig.build.json",
-    "prebuild:bundles": "shx rm -rf ./bundles",
+    "prebuild:bundles": "shx rm -rf ./dist",
     "build:bundles:compile": "./node_modules/.bin/webpack --config .config/webpack.build.js",
-    "minify": "npm run build && uglifyjs bundles/angular-otpp.umd.js --output bundles/angular-otpp.umd.min.js --in-source-map bundles/angular-otpp.umd.js.map --source-map bundles/angular-otpp.umd.min.js.map",
+    "minify": "npm run build && uglifyjs dist/index.js --output dist/index.min.js --in-source-map dist/index.js.map --source-map dist/index.min.js.map",
     "demo": "node_modules/.bin/webpack-dashboard --title angular-otpp-demo -- node_modules/.bin/webpack-dev-server --quiet --port 9000 --content-base demo --config .config/webpack.demo.js --open",
     "test": "./node_modules/.bin/karma start",
     "test-watch": "./node_modules/.bin/karma start --no-single-run --auto-watch"
