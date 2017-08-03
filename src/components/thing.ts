@@ -4,7 +4,7 @@ export class Thing {
   title: string;
   fields: Array<any>;
 
-  scope: any;
+  scope?: any;
 
   constructor() {}
 }

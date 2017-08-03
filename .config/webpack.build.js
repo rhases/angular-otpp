@@ -6,8 +6,8 @@ module.exports = {
   output: {
     path: __dirname + '/../dist',
     filename: 'index.js',
-    library: 'angular-otpp'
-    libraryTarget: 'commonjs2',
+    library: 'angular-otpp',
+    libraryTarget: 'commonjs2'
   },
   externals: [
     /^\@angular\//,
