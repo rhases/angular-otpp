@@ -4254,12 +4254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Thing = (function () {
-    function Thing() {
-    }
-    return Thing;
-}());
-exports.Thing = Thing;
+exports.default = 'otpp';
 
 
 /***/ }),
@@ -4272,22 +4267,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
 var formly = __webpack_require__(1);
 var formlyBootstrapTemplates = __webpack_require__(6);
-var things_1 = __webpack_require__(7);
-var things_controller_1 = __webpack_require__(9);
+var things_component_1 = __webpack_require__(7);
 var things_service_1 = __webpack_require__(10);
-var transition_1 = __webpack_require__(16);
-exports.Transition = transition_1.Transition;
-var thing_1 = __webpack_require__(3);
-exports.Thing = thing_1.Thing;
-var ngModuleName = 'otpp';
-exports.default = ngModuleName;
-var ngModule = angular.module(ngModuleName, [
+var form_answer_service_1 = __webpack_require__(14);
+var module_name_1 = __webpack_require__(3);
+exports.default = module_name_1.default;
+var ngModule = angular.module(module_name_1.default, [
     formly,
-    formlyBootstrapTemplates
+    formlyBootstrapTemplates,
+    things_component_1.default
 ]);
-ngModule.service('thingsService', things_service_1.ThingsService);
-ngModule.controller('ThingsController', things_controller_1.default);
-ngModule.directive('things', things_1.default);
+ngModule.service('ThingsService', things_service_1.ThingsService);
+ngModule.service('FormAnswerService', form_answer_service_1.FormAnswerService);
 
 
 /***/ }),
@@ -38752,13 +38743,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
-exports.default = thing;
-function thing() {
+var things_controller_1 = __webpack_require__(8);
+var module_name_1 = __webpack_require__(3);
+exports.default = angular.module(module_name_1.default + '.things', [])
+    .directive('things', function () {
     return {
+        template: __webpack_require__(9),
         restrict: 'E',
-        template: __webpack_require__(8),
-        replace: true,
-        transclude: true,
         scope: {
             transitions: '=',
             things: '=',
@@ -38766,35 +38757,41 @@ function thing() {
             state: '=',
             onfinish: '&'
         },
-        controller: 'ThingsController'
+        controller: things_controller_1.default,
     };
-}
+})
+    .name;
 
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"things-box\">\n  <div class=\"row\">\n    <div class=\"col-sm-12\">\n\n      <h1> {{current.title }} </h1>\n\n      <form name=\"thingForm\" novalidate class=\"form-horizontal\">\n\n        <formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form>\n\n        <div class=\"text-right\">\n          <button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid\"> Próximo </button>\n        </div>\n\n      </form>\n\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-function ThingsController($scope, thingsService, $stateParams) {
+function ThingsController($scope, ThingsService, FormAnswerService, $stateParams) {
     if (!$scope.transitions || !$scope.things)
         return;
-    thingsService.load($scope.transitions, $scope.things, $scope.model, $stateParams.state, $scope.onfinish);
-    $scope.current = thingsService.getCurrentThing();
+    FormAnswerService.start($scope, 'model');
+    function onFinish(formAnswer) {
+        $scope.model = FormAnswerService.get();
+        $scope.onfinish(formAnswer);
+    }
+    ThingsService.load($scope.transitions, $scope.things, $stateParams.state, $scope.onfinish);
+    $scope.current = ThingsService.getCurrentThing();
     $scope.next = function () {
-        thingsService.next();
+        ThingsService.next();
     };
 }
 exports.default = ThingsController;
 
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"things-box\">\n  <div class=\"row\">\n    <div class=\"col-sm-12\">\n\n      <h1> {{current.title }} </h1>\n\n      <form name=\"thingForm\" novalidate class=\"form-horizontal\">\n\n        <formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form>\n\n        <div class=\"text-right\">\n          <button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid\"> Próximo </button>\n        </div>\n\n      </form>\n\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 10 */
@@ -38804,39 +38801,37 @@ exports.default = ThingsController;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var execution_service_1 = __webpack_require__(11);
-var _ = __webpack_require__(13);
 var ThingsService = (function () {
-    function ThingsService($state) {
+    function ThingsService($state, FormAnswerService) {
         this.$state = $state;
+        this.FormAnswerService = FormAnswerService;
     }
-    ThingsService.prototype.load = function (transitions, things, model, state, onfinish) {
-        this.model = model;
-        this.onfinish = onfinish;
-        this.executionService = new execution_service_1.ExecutionService(transitions, things, model);
+    ThingsService.prototype.load = function (transitions, things, state, onfinish) {
+        this.executionService = new execution_service_1.ExecutionService(transitions, things, this.FormAnswerService.get());
         if (state) {
             this.executionService.go(state);
         }
         else {
             this.executionService.start();
         }
+        this.onfinish = onfinish;
     };
     ThingsService.prototype.getCurrentThing = function () {
         return this.executionService.getCurrent();
     };
     ThingsService.prototype.next = function () {
         var current = this.executionService.getCurrent();
-        this.model = _.merge(this.model, current.scope);
+        this.FormAnswerService.add(current.scope);
         var nextThing = this.executionService.next();
         if (!nextThing) {
             if (this.onfinish) {
-                this.onfinish(this.model);
+                this.onfinish(this.FormAnswerService.get());
             }
         }
         else {
             this.$state.go(this.$state.current.name, { state: nextThing.key });
         }
     };
-    ThingsService.$inject = ['$state'];
     return ThingsService;
 }());
 exports.ThingsService = ThingsService;
@@ -38849,8 +38844,8 @@ exports.ThingsService = ThingsService;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var thing_1 = __webpack_require__(3);
-var transitions_service_1 = __webpack_require__(12);
+var thing_1 = __webpack_require__(12);
+var transitions_service_1 = __webpack_require__(13);
 var ExecutionService = (function () {
     function ExecutionService(transitions, things, scope) {
         this.transitions = transitions;
@@ -38899,6 +38894,21 @@ exports.ExecutionService = ExecutionService;
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Thing = (function () {
+    function Thing() {
+    }
+    return Thing;
+}());
+exports.Thing = Thing;
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38961,7 +38971,36 @@ exports.TransitionsService = TransitionsService;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(15);
+var FormAnswerService = (function () {
+    function FormAnswerService() {
+        this.formAnswer = {};
+    }
+    FormAnswerService.prototype.start = function (scope, propName) {
+        this.scope = scope;
+        this.propName = propName;
+        this.scope[this.propName] = _.merge(this.scope[this.propName], this.formAnswer);
+    };
+    FormAnswerService.prototype.get = function () {
+        return this.scope[this.propName];
+    };
+    FormAnswerService.prototype.add = function (oneThingAnswer) {
+        this.formAnswer = _.merge(this.formAnswer, oneThingAnswer);
+        this.scope[this.propName] = _.merge(this.scope[this.propName], this.formAnswer);
+    };
+    return FormAnswerService;
+}());
+exports.FormAnswerService = FormAnswerService;
+
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -56050,10 +56089,10 @@ exports.TransitionsService = TransitionsService;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14), __webpack_require__(15)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(17)(module)))
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports) {
 
 var g;
@@ -56080,7 +56119,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -56105,21 +56144,6 @@ module.exports = function(module) {
 	}
 	return module;
 };
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Transition = (function () {
-    function Transition() {
-    }
-    return Transition;
-}());
-exports.Transition = Transition;
 
 
 /***/ })

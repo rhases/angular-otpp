@@ -6,12 +6,9 @@ export default function ThingsController($scope: any, ThingsService: ThingsServi
   if (!$scope.transitions || !$scope.things)
     return;
 
-  console.log(FormAnswerService)
-
   FormAnswerService.start($scope, 'model');
 
   function onFinish(formAnswer) {
-    console.log(formAnswer)
     $scope.model = FormAnswerService.get()
     $scope.onfinish(formAnswer);
   }

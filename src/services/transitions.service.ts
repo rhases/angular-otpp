@@ -1,4 +1,4 @@
-import { Transition } from '../components/transition';
+import { Transition } from '../model/transition';
 
 
 export class TransitionsService {

@@ -1,5 +1,5 @@
-import { Transition } from '../components/transition';
-import { Thing } from '../components/thing';
+import { Transition } from '../model/transition';
+import { Thing } from '../model/thing';
 
 import { TransitionsService } from './transitions.service';
 import * as _ from 'lodash';
