@@ -5,7 +5,8 @@ export default function ThingsController($scope: any, thingsService: ThingsServi
   if (!$scope.transitions || !$scope.things)
     return;
 
-  thingsService.load($scope.transitions, $scope.things, $scope.model, $stateParams.state);
+  thingsService.load($scope.transitions, $scope.things, $scope.model, $stateParams.state, $scope.onfinish);
+
   $scope.current = thingsService.getCurrentThing();
 
   $scope.next = function() {

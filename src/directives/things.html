@@ -1,9 +1,19 @@
 <div class="things-box">
-  <h1> {{current.title }} </h1>
+  <div class="row">
+    <div class="col-sm-12">
 
-  <formly-form model="current.scope" fields="current.fields"></formly-form>
+      <h1> {{current.title }} </h1>
 
-  <div class="text-right">
-    <button class="btn btn-primary btn-lg" ng-click="next()"> Próximo </button>
+      <form name="thingForm" novalidate class="form-horizontal">
+
+        <formly-form model="current.scope" fields="current.fields"></formly-form>
+
+        <div class="text-right">
+          <button class="btn btn-primary btn-lg" ng-click="next()" ng-disabled="thingForm.$invalid"> Próximo </button>
+        </div>
+
+      </form>
+
+    </div>
   </div>
 </div>

@@ -33,12 +33,16 @@ export class ExecutionService {
   }
 
   start(): Thing {
-    var state: string = this.transitionService.start();
+    var state: string = this.transitionService.getStartThing();
     return this.getThing(state);
   }
 
   next(): Thing {
-    var state = this.transitionService.next();
+    var state = this.transitionService.getNextThing();
+
+    if (state == 'end')
+      return undefined;
+
     return this.getThing(state);
   }
 

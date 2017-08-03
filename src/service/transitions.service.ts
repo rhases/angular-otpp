@@ -13,15 +13,15 @@ export class TransitionsService {
     this.scope = scope;
   }
 
-  start(): string {
-    return this.nextFromCurrentKey("start");
+  getStartThing(): string {
+    return this.nextThingFromCurrentKey("start");
   }
 
-  next(): string {
-    return this.nextFromCurrentKey(this.current);
+  getNextThing(): string {
+    return this.nextThingFromCurrentKey(this.current);
   }
 
-  nextFromCurrentKey(currentKey: string): string {
+  nextThingFromCurrentKey(currentKey: string): string {
     var nextArr = this.transitions
       .filter((transition) => {
         return (transition.from === currentKey)
@@ -44,9 +44,9 @@ export class TransitionsService {
     return this.current;
   }
 
-  go(state: string): string {
-    this.current = state;
-    return state;
+  go(thingKey: string): string {
+    this.current = thingKey;
+    return thingKey;
   }
 
   evaluate(scope, condition): boolean {

@@ -1,5 +1,18 @@
 <div class="container">
-    <div class="row col-lg-12">
-      <things transitions="$ctrl.transitions" things="$ctrl.things"  model="$ctrl.model"> </things>
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <br>
+        <br>
+
+        <things transitions="$ctrl.form.transitions" things="$ctrl.form.things" model="$ctrl.formAnswer" onfinish="$ctrl.finish()"> </things>
+
+        <br>
+        <br>
+      </div>
     </div>
+
+    <br>
+    <br>
+
+    <pre>{{ $ctrl.formAnswer | json }}</pre>
 </div>

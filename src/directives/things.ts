@@ -13,7 +13,9 @@ function thing() {
       things: '=',
 
       model: '=',
-      state: '='
+      state: '=',
+
+      onfinish: '&'
     },
     controller: 'ThingsController'
   }
