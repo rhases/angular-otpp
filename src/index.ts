@@ -1,6 +1,5 @@
 const angular = require('angular');
 const formly = require('angular-formly');
-const formlyBootstrapTemplates = require('angular-formly-templates-bootstrap');
 
 import things from './directives/things.component'
 
@@ -13,7 +12,6 @@ export default ngModuleName
 
 const ngModule = angular.module(ngModuleName, [
   formly,
-  formlyBootstrapTemplates,
   things
 ])
 
