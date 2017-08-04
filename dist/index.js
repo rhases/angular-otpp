@@ -170,7 +170,7 @@ exports.default = ThingsController;
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\">\n  <div class=\"row\">\n    <div class=\"col-sm-12\">\n\n      <h1> {{current.title }} </h1>\n\n      <form name=\"thingForm\" novalidate class=\"form-horizontal\">\n\n        <formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form>\n\n        <div class=\"text-right\">\n          <button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid\"> Próximo </button>\n        </div>\n\n      </form>\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"things-box\">\n  <div class=\"row\">\n    <div class=\"col-sm-12\">\n\n      <h2> {{current.title }} </h2>\n\n      <br class=\"hidden-xs\"></br>\n      <br class=\"hidden-xs hidden-sm\"></br>\n\n      <form name=\"thingForm\" novalidate class=\"form-horizontal\">\n\n        <formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form>\n\n        <br class=\"hidden-xs\"></br>\n        <br class=\"hidden-xs hidden-sm\"></br>\n\n        <div class=\"text-right\">\n          <button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid\"> Próximo </button>\n        </div>\n\n      </form>\n\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 8 */
