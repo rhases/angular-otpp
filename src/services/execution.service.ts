@@ -46,9 +46,9 @@ export class ExecutionService {
     return this.getThing(state);
   }
 
-  go(state: string): Thing {
-    this.transitionService.go(state);
-    return this.getThing(state);
+  go(actualThingKey: string): Thing {
+    this.transitionService.go(actualThingKey);
+    return this.getThing(actualThingKey);
   }
 
   getCurrent(): Thing {

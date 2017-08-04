@@ -12,12 +12,12 @@ export class ThingsService {
   onFinish: Function;
 
   /*@ngInject*/
-  constructor(private $state, private FormAnswerService) { }
+  constructor(private $state, private $stateParams, private FormAnswerService) { }
 
-  load(transitions, things, state, onFinish) {
+  load(transitions, things, actualThingKey, onFinish) {
     this.executionService = new ExecutionService(transitions, things, this.FormAnswerService.get());
-    if (state) {
-      this.executionService.go(state);
+    if (actualThingKey) {
+      this.executionService.go(actualThingKey);
     } else {
       this.executionService.start();
     }
@@ -42,7 +42,8 @@ export class ThingsService {
         this.onFinish(this.FormAnswerService.get());
       }
     } else {
-      this.$state.go(this.$state.current.name, { state: nextThing.key })
+      var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })
+      this.$state.go(this.$state.current.name, stateParams);
     }
 
   }

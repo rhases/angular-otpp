@@ -9,10 +9,21 @@ module.exports = {
     library: 'angular-otpp',
     libraryTarget: 'commonjs2'
   },
-  externals: [
-    /^\@angular\//,
-    /^rxjs\//
-  ],
+  // externals: [
+  //   /^\@angular\//,
+  //   /^rxjs\//
+  // ],
+  externals: {
+    'angular': 'angular',
+    'angular-formly': 'angular-formly',
+    'lodash': 'lodash',
+    'api-check': {
+      root: 'apiCheck',
+      amd: 'api-check',
+      commonjs2: 'api-check',
+      commonjs: 'api-check'
+    }
+  },
   resolve: {
     extensions: ['.ts', '.js']
   },
