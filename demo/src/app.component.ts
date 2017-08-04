@@ -14,4 +14,9 @@ export class MainController {
   finish() {
     this.$window.alert("Seu pedido já está sendo processado!!!");
   }
+
+  each(thing, model) {
+    console.log("Finish the thing" + thing.key, thing);
+    console.log("The model now is:", model);
+  }
 }

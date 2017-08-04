@@ -19,9 +19,10 @@ export default angular.module(ngModuleName + '.things', [])
         things: '=',
 
         model: '=',
-        state: '=',
+        thingId: '=',
 
-        onfinish: '&'
+        onFinish: '&',
+        onEachThing: '&'
       },
 
       controller: ThingsController,
