@@ -8,16 +8,14 @@ export default function ThingsController($scope: any, ThingsService: ThingsServi
 
   FormAnswerService.start($scope, 'model');
 
-  function onFinish(formAnswer) {
-    $scope.model = FormAnswerService.get()
-    $scope.onfinish(formAnswer);
-  }
-
-  ThingsService.load($scope.transitions, $scope.things, $stateParams.state, $scope.onfinish);
+  ThingsService.load($scope.transitions, $scope.things, $stateParams.state, $scope.onFinish);
 
   $scope.current = ThingsService.getCurrentThing();
 
   $scope.next = function() {
+    if ($scope.onEachThing) {
+      $scope.onEachThing({ thing: $scope.current, model: FormAnswerService.get() });
+    }
     ThingsService.next();
   }
 }
