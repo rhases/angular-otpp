@@ -1,0 +1,45 @@
+.tips-box {
+  $default-tip-border-color: #555555;
+  $tip-border-color: if(global-variable-exists('alert-info-border'), $alert-info-border, $default-tip-border-color);
+
+  transition: all linear 0.5s;
+
+  .img-circle {
+    transition: all linear 0.1s;
+  }
+
+  &.ng-hide {
+    opacity: 0;
+    height: 1px;
+  }
+
+  .tip {
+    .tip-image {
+      padding: 5px;
+      width: 75px;
+    }
+
+    .tip-message {
+      display: inline-block;
+
+      margin-left: 17px;
+
+      min-width: 250px;
+      min-height: 50px;
+
+      &:after {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid $tip-border-color;
+        margin-top: -20px;
+        left: -26px;
+        position: relative;
+        z-index: 3;
+      }
+    }
+  }
+}

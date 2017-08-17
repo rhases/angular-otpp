@@ -7,12 +7,9 @@ import ngModuleName from '../module-name';
 export default angular.module(ngModuleName + '.things', [])
   .directive('things', function() {
     return {
-      template: require('./things.html'),
+      template: require('./things.pug'),
 
       restrict: 'E',
-
-      // replace: true,
-      // transclude: true,
 
       scope: {
         transitions: '=',

@@ -94,15 +94,22 @@ module.exports = require("lodash");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
-var formly = __webpack_require__(4);
-var things_component_1 = __webpack_require__(5);
-var things_service_1 = __webpack_require__(8);
-var form_answer_service_1 = __webpack_require__(12);
+var angularAnimate = __webpack_require__(4);
+var formly = __webpack_require__(5);
+var formlyTemplatesBootstrap = __webpack_require__(6);
+var things_component_1 = __webpack_require__(7);
+var tips_component_1 = __webpack_require__(10);
+var things_service_1 = __webpack_require__(13);
+var form_answer_service_1 = __webpack_require__(17);
 var module_name_1 = __webpack_require__(1);
+__webpack_require__(18);
 exports.default = module_name_1.default;
 var ngModule = angular.module(module_name_1.default, [
+    angularAnimate,
     formly,
-    things_component_1.default
+    formlyTemplatesBootstrap,
+    things_component_1.default,
+    tips_component_1.default
 ]);
 ngModule.service('ThingsService', things_service_1.ThingsService);
 ngModule.service('FormAnswerService', form_answer_service_1.FormAnswerService);
@@ -112,22 +119,34 @@ ngModule.service('FormAnswerService', form_answer_service_1.FormAnswerService);
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("angular-formly");
+module.exports = require("angular-animate");
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("angular-formly");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("angular-formly-templates-bootstrap");
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
-var things_controller_1 = __webpack_require__(6);
+var things_controller_1 = __webpack_require__(8);
 var module_name_1 = __webpack_require__(1);
 exports.default = angular.module(module_name_1.default + '.things', [])
     .directive('things', function () {
     return {
-        template: __webpack_require__(7),
+        template: __webpack_require__(9),
         restrict: 'E',
         scope: {
             transitions: '=',
@@ -144,7 +163,7 @@ exports.default = angular.module(module_name_1.default + '.things', [])
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -167,19 +186,81 @@ exports.default = ThingsController;
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\">\n  <div class=\"row\">\n    <div class=\"col-sm-12\">\n\n      <h2> {{current.title }} </h2>\n\n      <br class=\"hidden-xs\"></br>\n      <br class=\"hidden-xs hidden-sm\"></br>\n\n      <form name=\"thingForm\" novalidate class=\"form-horizontal\">\n\n        <formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form>\n\n        <br class=\"hidden-xs\"></br>\n        <br class=\"hidden-xs hidden-sm\"></br>\n\n        <div class=\"text-right\">\n          <button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid\"> Próximo </button>\n        </div>\n\n      </form>\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><br class=\"hidden-xs hidden-sm\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs hidden-sm\"/><br/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs hidden-sm\"/><br/><div class=\"text-right\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></form></div></div></div>"
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var execution_service_1 = __webpack_require__(9);
+var angular = __webpack_require__(0);
+var tips_controller_1 = __webpack_require__(11);
+var module_name_1 = __webpack_require__(1);
+exports.default = angular.module(module_name_1.default + '.tips', [])
+    .directive('tips', function () {
+    return {
+        template: __webpack_require__(12),
+        restrict: 'E',
+        scope: {
+            tips: '=',
+            values: '=',
+            image: '='
+        },
+        controller: tips_controller_1.default,
+    };
+})
+    .name;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function TipsController($scope, $parse) {
+    if ($scope.tips) {
+        $scope.tips.forEach(function (tip) {
+            if (tip.condition) {
+                var parser = $parse(tip.condition);
+                tip.evaluateCondition = function () { return parser({ scope: $scope.values }); };
+            }
+            else {
+                tip.evaluateCondition = function () { return true; };
+            }
+        });
+    }
+    $scope.hasAnyOneTipToShow = function () {
+        if (!$scope.tips)
+            return false;
+        return $scope.tips.reduce(function (final, tip) {
+            return final || tip.evaluateCondition();
+        }, false);
+    };
+}
+exports.default = TipsController;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"tips-box\" ng-show=\"hasAnyOneTipToShow()\"><div class=\"row\"><div class=\"col-sm-12\"><div class=\"tip\"><img class=\"tip-image img-circle concierge-image\" ng-src=\"{{image}}\" ng-if=\"image\"/><div class=\"alert alert-info tip-message\"><span ng-repeat=\"tip in tips\" ng-show=\"tip.text &amp;&amp; tip.evaluateCondition()\">{{ tip.text }}</span></div></div></div></div></div>"
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var execution_service_1 = __webpack_require__(14);
 var _ = __webpack_require__(2);
 var ThingsService = (function () {
     function ThingsService($state, $stateParams, FormAnswerService) {
@@ -220,14 +301,14 @@ exports.ThingsService = ThingsService;
 
 
 /***/ }),
-/* 9 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var thing_1 = __webpack_require__(10);
-var transitions_service_1 = __webpack_require__(11);
+var thing_1 = __webpack_require__(15);
+var transitions_service_1 = __webpack_require__(16);
 var ExecutionService = (function () {
     function ExecutionService(transitions, things, scope) {
         this.transitions = transitions;
@@ -275,7 +356,7 @@ exports.ExecutionService = ExecutionService;
 
 
 /***/ }),
-/* 10 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -290,7 +371,7 @@ exports.Thing = Thing;
 
 
 /***/ }),
-/* 11 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -353,7 +434,7 @@ exports.TransitionsService = TransitionsService;
 
 
 /***/ }),
-/* 12 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -380,6 +461,12 @@ var FormAnswerService = (function () {
 }());
 exports.FormAnswerService = FormAnswerService;
 
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -16,7 +16,7 @@ const path = require('path');
 module.exports = {
   entry: {
     app: './src/bootstrap.ts',
-    vendor: ['angular', 'angular-ui-router', 'angular-formly', 'angular-ui-bootstrap'],
+    vendor: ['angular', 'angular-animate', 'angular-ui-router', 'angular-formly', 'angular-formly-templates-bootstrap', 'angular-ui-bootstrap'],
   },
   devtool: 'source-map',
   context: path.join(__dirname, '..', 'demo'),
