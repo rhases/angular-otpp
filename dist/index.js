@@ -251,7 +251,7 @@ exports.default = TipsController;
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"tips-box\" ng-show=\"hasAnyOneTipToShow()\"><div class=\"row\"><div class=\"col-sm-12\"><div class=\"tip\"><img class=\"tip-image img-circle concierge-image\" ng-src=\"{{image}}\" ng-if=\"image\"/><div class=\"alert alert-info tip-message\"><span ng-repeat=\"tip in tips\" ng-show=\"tip.text &amp;&amp; tip.evaluateCondition()\">{{ tip.text }}</span></div></div></div></div></div>"
+module.exports = "<div class=\"tips-box\" ng-show=\"hasAnyOneTipToShow()\"><div class=\"row\"><div class=\"col-sm-12\"><div class=\"tip\"><img class=\"tip-image img-circle concierge-image\" ng-src=\"{{image}}\" ng-if=\"image\"/><div class=\"alert alert-info tip-message\"><span ng-hide=\"hasAnyOneTipToShow()\"><br/></span><span ng-repeat=\"tip in tips\" ng-show=\"tip.text &amp;&amp; tip.evaluateCondition()\">{{ tip.text }}</span></div></div></div></div></div>"
 
 /***/ }),
 /* 13 */
