@@ -32,7 +32,7 @@ function routing($stateProvider) {
   'ngInject';
   $stateProvider
     .state('main', {
-      url: '/?state',
+      url: '/?thingKey',
       template: '<main></main>'
     });
 };

@@ -48,7 +48,6 @@ export default {
             }
           }
         ],
-        scope: undefined
       },
       {
         key: 'flavor',
@@ -64,7 +63,23 @@ export default {
             }
           }
         ],
-        scope: undefined
+        tips: {
+          image: 'http://ra-concierge.homolog.rhases.com.br/assets/images/atendente/priscila-cc8b3fcab5.jpg',
+          values: [
+            {
+              text: 'Hummm... Peperonni é uma delícia!!!',
+              condition: 'scope.flavor == "p"'
+            },
+            {
+              text: 'Calabresa?!?! Que bom!!! Gosto muito.',
+              condition: 'scope.flavor == "c"'
+            },
+            // {
+            //   text: 'A mais autentica. ;)',
+            //   condition: 'scope.flavor == "m"'
+            // },
+          ]
+        },
       },
       {
         key: 'gluten',
@@ -80,7 +95,6 @@ export default {
             }
           }
         ],
-        scope: undefined
       },
       {
         key: 'refri',
@@ -96,7 +110,6 @@ export default {
             }
           }
         ],
-        scope: undefined
       },
       {
         key: 'contact',
@@ -129,7 +142,6 @@ export default {
             }
           }
         ],
-        scope: undefined
       }
     ]
 }
