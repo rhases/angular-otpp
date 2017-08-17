@@ -4,5 +4,7 @@
       .tip
         img.tip-image.img-circle.concierge-image(ng-src='{{image}}' ng-if='image')
         .alert.alert-info.tip-message
+          span(ng-hide='hasAnyOneTipToShow()')
+            br
           span(ng-repeat='tip in tips', ng-show='tip.text && tip.evaluateCondition()')
             | {{ tip.text }}

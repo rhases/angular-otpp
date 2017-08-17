@@ -1,5 +1,5 @@
 .tips-box {
-  $default-tip-border-color: #555555;
+  $default-tip-border-color: #bce8f1;
   $tip-border-color: if(global-variable-exists('alert-info-border'), $alert-info-border, $default-tip-border-color);
 
   transition: all linear 0.5s;
