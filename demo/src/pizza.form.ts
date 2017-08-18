@@ -37,6 +37,7 @@ export default {
       {
         key: 'pastaType',
         title: 'Olá, vamos pedir nossa pizza?!',
+        immediate: true,
         fields: [
           {
             key: 'pastaType',

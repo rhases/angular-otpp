@@ -13,5 +13,5 @@
         tips(tips='current.tips.values', image='current.tips.image', values='current.scope')
         br.hidden-xs.hidden-sm
         br
-        .text-right
+        .text-right(ng-hide="!startedValid && current.immediate")
           button.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending')  Próximo
