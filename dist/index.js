@@ -72,6 +72,12 @@ module.exports = require("angular");
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79,12 +85,6 @@ module.exports = require("angular");
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = 'otpp';
 
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash");
 
 /***/ }),
 /* 3 */
@@ -101,7 +101,7 @@ var things_component_1 = __webpack_require__(7);
 var tips_component_1 = __webpack_require__(10);
 var things_service_1 = __webpack_require__(13);
 var form_answer_service_1 = __webpack_require__(17);
-var module_name_1 = __webpack_require__(1);
+var module_name_1 = __webpack_require__(2);
 __webpack_require__(18);
 exports.default = module_name_1.default;
 var ngModule = angular.module(module_name_1.default, [
@@ -142,7 +142,7 @@ module.exports = require("angular-formly-templates-bootstrap");
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
 var things_controller_1 = __webpack_require__(8);
-var module_name_1 = __webpack_require__(1);
+var module_name_1 = __webpack_require__(2);
 exports.default = angular.module(module_name_1.default + '.things', [])
     .directive('things', function () {
     return {
@@ -169,7 +169,8 @@ exports.default = angular.module(module_name_1.default + '.things', [])
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-function ThingsController($scope, ThingsService, FormAnswerService, $stateParams) {
+var _ = __webpack_require__(1);
+function ThingsController($scope, $timeout, ThingsService, FormAnswerService, $stateParams) {
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
@@ -181,6 +182,22 @@ function ThingsController($scope, ThingsService, FormAnswerService, $stateParams
         }
         ThingsService.next();
     };
+    $timeout(function () {
+        $scope.startedValid = $scope.thingForm.$valid;
+        if (!$scope.startedValid && $scope.current.immediate) {
+            executeImmediate();
+        }
+    }, 250);
+    function executeImmediate() {
+        var checkIfCanPassDebounced = _.debounce(checkIfCanPass, 250, { 'maxWait': 1500 });
+        $scope.$watch(function () { return $scope.thingForm.$invalid && $scope.thingForm.$pending; }, checkIfCanPassDebounced);
+        function checkIfCanPass() {
+            console.log('checkIfCanPass');
+            if (!$scope.thingForm.$invalid && !$scope.thingForm.$pending) {
+                $scope.next();
+            }
+        }
+    }
 }
 exports.default = ThingsController;
 
@@ -189,7 +206,7 @@ exports.default = ThingsController;
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><br class=\"hidden-xs hidden-sm\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs hidden-sm\"/><br/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs hidden-sm\"/><br/><div class=\"text-right\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></form></div></div></div>"
+module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><br class=\"hidden-xs hidden-sm\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs hidden-sm\"/><br/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs hidden-sm\"/><br/><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></form></div></div></div>"
 
 /***/ }),
 /* 10 */
@@ -200,7 +217,7 @@ module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
 var tips_controller_1 = __webpack_require__(11);
-var module_name_1 = __webpack_require__(1);
+var module_name_1 = __webpack_require__(2);
 exports.default = angular.module(module_name_1.default + '.tips', [])
     .directive('tips', function () {
     return {
@@ -261,7 +278,7 @@ module.exports = "<div class=\"tips-box\" ng-show=\"hasAnyOneTipToShow()\"><div 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var execution_service_1 = __webpack_require__(14);
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(1);
 var ThingsService = (function () {
     function ThingsService($state, $stateParams, FormAnswerService) {
         this.$state = $state;
@@ -440,7 +457,7 @@ exports.TransitionsService = TransitionsService;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(1);
 var FormAnswerService = (function () {
     function FormAnswerService() {
         this.formAnswer = {};
