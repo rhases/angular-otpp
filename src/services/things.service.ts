@@ -10,11 +10,12 @@ export class ThingsService {
   executionService: ExecutionService;
 
   onFinish: Function;
+  onFinishThing: Function;
 
   /*@ngInject*/
   constructor(private $state, private $stateParams, private FormAnswerService) { }
 
-  load(transitions, things, actualThingKey, onFinish) {
+  load(transitions, things, actualThingKey, onFinish, onFinishThing) {
     this.executionService = new ExecutionService(transitions, things, this.FormAnswerService.get());
     if (actualThingKey) {
       this.executionService.go(actualThingKey);
@@ -23,6 +24,7 @@ export class ThingsService {
     }
 
     this.onFinish = onFinish;
+    this.onFinishThing = onFinishThing;
   }
 
   getCurrentThing() {
@@ -31,15 +33,16 @@ export class ThingsService {
 
   next() {
     var current = this.executionService.getCurrent();
-
-    this.FormAnswerService.add(current.scope);
+    if (this.onFinishThing) {
+      this.onFinishThing({ thing: current, model: this.FormAnswerService.get() });
+    }
 
     var nextThing = this.executionService.next();
 
     if (!nextThing) {
       // Tell to controller that is finished
       if (this.onFinish) {
-        this.onFinish(this.FormAnswerService.get());
+        this.onFinish({ model: this.FormAnswerService.get() });
       }
     } else {
       var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })

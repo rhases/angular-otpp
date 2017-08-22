@@ -1,17 +1,15 @@
 .things-box
   .row
     .col-sm-12
-      h2  {{current.title }}
+      h2.thing-title  {{current.title }}
       br.hidden-xs
       br
-      br.hidden-xs.hidden-sm
-      br
       form.form-horizontal(name='thingForm', novalidate='')
-        formly-form(model='current.scope', fields='current.fields')
-        br.hidden-xs.hidden-sm
-        br
-        tips(tips='current.tips.values', image='current.tips.image', values='current.scope')
-        br.hidden-xs.hidden-sm
-        br
-        .text-right(ng-hide="!startedValid && current.immediate")
-          button.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending')  Próximo
+        .thing-form
+          formly-form(model='current.scope', fields='current.fields')
+          br.hidden-xs
+          tips(tips='current.tips.values', image='current.tips.image', values='current.scope')
+          br.hidden-xs(ng-show="current.tips && current.tips.values.length > 0")
+        .thing-button
+          .text-right(ng-hide="!startedValid && current.immediate")
+            button.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending')  Próximo

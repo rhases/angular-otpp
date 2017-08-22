@@ -10,20 +10,20 @@ export default function ThingsController($scope: any, $timeout, ThingsService: T
 
   FormAnswerService.start($scope, 'model');
 
-  ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish);
+  ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish, $scope.onFinishThing);
 
   $scope.current = ThingsService.getCurrentThing();
+  $scope.current.scope = _.clone(FormAnswerService.get());
 
   $scope.next = function() {
-    if ($scope.onFinishThing) {
-      $scope.onFinishThing({ thing: $scope.current, model: FormAnswerService.get() });
-    }
-    ThingsService.next();
+    FormAnswerService.add($scope.current.scope);
+    $timeout(function() {
+      ThingsService.next();
+    }, 50)
   }
 
   $timeout(function() {
     $scope.startedValid = $scope.thingForm.$valid;
-
 
     if (!$scope.startedValid && $scope.current.immediate) {
       executeImmediate();

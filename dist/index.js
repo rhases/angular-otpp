@@ -174,13 +174,14 @@ function ThingsController($scope, $timeout, ThingsService, FormAnswerService, $s
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
-    ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish);
+    ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish, $scope.onFinishThing);
     $scope.current = ThingsService.getCurrentThing();
+    $scope.current.scope = _.clone(FormAnswerService.get());
     $scope.next = function () {
-        if ($scope.onFinishThing) {
-            $scope.onFinishThing({ thing: $scope.current, model: FormAnswerService.get() });
-        }
-        ThingsService.next();
+        FormAnswerService.add($scope.current.scope);
+        $timeout(function () {
+            ThingsService.next();
+        }, 50);
     };
     $timeout(function () {
         $scope.startedValid = $scope.thingForm.$valid;
@@ -206,7 +207,7 @@ exports.default = ThingsController;
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><br class=\"hidden-xs hidden-sm\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs hidden-sm\"/><br/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs hidden-sm\"/><br/><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></form></div></div></div>"
+module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\"> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></div></form></div></div></div>"
 
 /***/ }),
 /* 10 */
@@ -285,7 +286,7 @@ var ThingsService = (function () {
         this.$stateParams = $stateParams;
         this.FormAnswerService = FormAnswerService;
     }
-    ThingsService.prototype.load = function (transitions, things, actualThingKey, onFinish) {
+    ThingsService.prototype.load = function (transitions, things, actualThingKey, onFinish, onFinishThing) {
         this.executionService = new execution_service_1.ExecutionService(transitions, things, this.FormAnswerService.get());
         if (actualThingKey) {
             this.executionService.go(actualThingKey);
@@ -294,17 +295,20 @@ var ThingsService = (function () {
             this.executionService.start();
         }
         this.onFinish = onFinish;
+        this.onFinishThing = onFinishThing;
     };
     ThingsService.prototype.getCurrentThing = function () {
         return this.executionService.getCurrent();
     };
     ThingsService.prototype.next = function () {
         var current = this.executionService.getCurrent();
-        this.FormAnswerService.add(current.scope);
+        if (this.onFinishThing) {
+            this.onFinishThing({ thing: current, model: this.FormAnswerService.get() });
+        }
         var nextThing = this.executionService.next();
         if (!nextThing) {
             if (this.onFinish) {
-                this.onFinish(this.FormAnswerService.get());
+                this.onFinish({ model: this.FormAnswerService.get() });
             }
         }
         else {
