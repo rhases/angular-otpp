@@ -60,13 +60,13 @@
     "angular-animate": "^1.6.5"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "css-loader": "^0.28.4",
     "node-sass": "^4.5.3",
     "pug-html-loader": "^1.1.5",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.18.2"
-  },
-  "devDependencies": {
+    "style-loader": "^0.18.2",
     "@angular/common": "^2.4.10",
     "@angular/compiler": "^2.4.10",
     "@angular/compiler-cli": "^2.4.10",
