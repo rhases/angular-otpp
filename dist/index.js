@@ -475,8 +475,13 @@ var FormAnswerService = (function () {
         return this.scope[this.propName];
     };
     FormAnswerService.prototype.add = function (oneThingAnswer) {
-        this.formAnswer = _.merge(this.formAnswer, oneThingAnswer);
-        this.scope[this.propName] = _.merge(this.scope[this.propName], this.formAnswer);
+        function mergeUsingSourceArray(objValue, srcValue) {
+            if (_.isArray(objValue)) {
+                return srcValue;
+            }
+        }
+        this.formAnswer = _.mergeWith(this.formAnswer, oneThingAnswer, mergeUsingSourceArray);
+        this.scope[this.propName] = _.mergeWith(this.scope[this.propName], this.formAnswer, mergeUsingSourceArray);
     };
     return FormAnswerService;
 }());
