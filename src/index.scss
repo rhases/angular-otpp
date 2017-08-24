@@ -2,6 +2,9 @@
   $default-tip-border-color: #bce8f1;
   $tip-border-color: if(global-variable-exists('alert-info-border'), $alert-info-border, $default-tip-border-color);
 
+  $screen-sm-max: if(global-variable-exists('screen-sm-max'), $screen-sm-max, 999px);
+  $screen-md-min: if(global-variable-exists('screen-md-min'), $screen-md-min, 1000px);
+
   transition: all linear 0.5s;
 
   .img-circle {
@@ -21,11 +24,16 @@
 
     .tip-message {
       display: inline-block;
-
       margin-left: 17px;
-
       min-width: 250px;
       min-height: 50px;
+      max-width: 450px;
+
+      @media (max-width: $screen-sm-max) {
+        min-width: 100px;
+        min-height: 50px;
+        max-width: 190px;
+      }
 
       &:after {
         content: " ";
@@ -36,7 +44,7 @@
         border-bottom: 10px solid transparent;
         border-right: 10px solid $tip-border-color;
         margin-top: -20px;
-        left: -26px;
+        left: -25px;
         position: relative;
         z-index: 3;
       }

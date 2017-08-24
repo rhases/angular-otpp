@@ -1,7 +1,7 @@
 .things-box
   .row
     .col-sm-12
-      h2.thing-title  {{current.title }}
+      h2.thing-title(ng-bind-html="currentTitle")
       br.hidden-xs
       br
       form.form-horizontal(name='thingForm', novalidate='')

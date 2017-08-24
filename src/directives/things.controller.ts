@@ -3,7 +3,7 @@ var _ = require('lodash');
 import { ThingsService } from '../services/things.service'
 import { FormAnswerService } from '../services/form-answer.service'
 
-export default function ThingsController($scope: any, $timeout, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
+export default function ThingsController($scope: any, $timeout, $sce, $parse, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
 
   if (!$scope.transitions || !$scope.things)
     return;
@@ -14,6 +14,8 @@ export default function ThingsController($scope: any, $timeout, ThingsService: T
 
   $scope.current = ThingsService.getCurrentThing();
   $scope.current.scope = _.clone(FormAnswerService.get());
+
+  $scope.currentTitle = getCurrentTitle($scope.current)
 
   $scope.next = function() {
     FormAnswerService.add($scope.current.scope);
@@ -41,6 +43,17 @@ export default function ThingsController($scope: any, $timeout, ThingsService: T
         $scope.next();
       }
     }
+  }
+
+  function getCurrentTitle(thing) {
+    if (_.isObject(thing.title)) {
+      for (var key in thing.title) {
+        if($parse(key)({ scope: thing.scope }))
+          return $sce.trustAsHtml((thing.title[key]);
+      }
+    }
+
+    return $sce.trustAsHtml(thing.title);
   }
 
 }

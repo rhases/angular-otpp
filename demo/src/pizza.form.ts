@@ -36,7 +36,7 @@ export default {
     things: [
       {
         key: 'pastaType',
-        title: 'Olá, vamos pedir nossa pizza?!',
+        title: 'Olá,<br /> Vamos pedir nossa pizza?!',
         immediate: true,
         fields: [
           {
@@ -52,7 +52,10 @@ export default {
       },
       {
         key: 'flavor',
-        title: 'E o sabor?!',
+        title: {
+          'scope.pastaType == "i"': 'E o sabor da sua pizza FIT?!',
+          'true': 'E o sabor?!'
+        },
         fields: [
           {
             key: 'flavor',
