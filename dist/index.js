@@ -170,13 +170,14 @@ exports.default = angular.module(module_name_1.default + '.things', [])
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(1);
-function ThingsController($scope, $timeout, ThingsService, FormAnswerService, $stateParams) {
+function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAnswerService, $stateParams) {
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
     ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish, $scope.onFinishThing);
     $scope.current = ThingsService.getCurrentThing();
     $scope.current.scope = _.clone(FormAnswerService.get());
+    $scope.currentTitle = getCurrentTitle($scope.current);
     $scope.next = function () {
         FormAnswerService.add($scope.current.scope);
         $timeout(function () {
@@ -199,6 +200,15 @@ function ThingsController($scope, $timeout, ThingsService, FormAnswerService, $s
             }
         }
     }
+    function getCurrentTitle(thing) {
+        if (_.isObject(thing.title)) {
+            for (var key in thing.title) {
+                if ($parse(key)({ scope: thing.scope }))
+                    return $sce.trustAsHtml(thing.title[key]);
+            }
+        }
+        return $sce.trustAsHtml(thing.title);
+    }
 }
 exports.default = ThingsController;
 
@@ -207,7 +217,7 @@ exports.default = ThingsController;
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\"> {{current.title }}</h2><br class=\"hidden-xs\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></div></form></div></div></div>"
+module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\" ng-bind-html=\"currentTitle\"></h2><br class=\"hidden-xs\"/><br/><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></div></form></div></div></div>"
 
 /***/ }),
 /* 10 */

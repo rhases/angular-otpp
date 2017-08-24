@@ -49,7 +49,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
     if (_.isObject(thing.title)) {
       for (var key in thing.title) {
         if($parse(key)({ scope: thing.scope }))
-          return $sce.trustAsHtml((thing.title[key]);
+          return $sce.trustAsHtml(thing.title[key]);
       }
     }
 
