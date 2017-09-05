@@ -11,12 +11,20 @@ export class MainController {
   constructor(private $window) {
   }
 
+  start() {
+    console.log("Start the form");
+  }
+
   finish() {
     this.$window.alert("Seu pedido já está sendo processado!!!");
   }
 
-  each(thing, model) {
-    console.log("Finish the thing" + thing.key, thing);
+  startThing(thing, model) {
+    console.log("Start the thing " + thing.key, thing);
+  }
+
+  finishThing(thing, model) {
+    console.log("Finish the thing " + thing.key, thing);
     console.log("The model now is:", model);
   }
 }

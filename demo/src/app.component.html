@@ -4,7 +4,7 @@
         <br>
         <br>
 
-        <things transitions="$ctrl.form.transitions" things="$ctrl.form.things" model="$ctrl.formAnswer" on-finish-thing="$ctrl.each(thing, model)" on-finish="$ctrl.finish()"> </things>
+        <things transitions="$ctrl.form.transitions" things="$ctrl.form.things" model="$ctrl.formAnswer" on-start="$ctrl.start()" on-start-thing="$ctrl.startThing(thing, model)" on-finish-thing="$ctrl.finishThing(thing, model)" on-finish="$ctrl.finish()"> </things>
 
         <br>
         <br>

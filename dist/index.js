@@ -153,6 +153,8 @@ exports.default = angular.module(module_name_1.default + '.things', [])
             things: '=',
             model: '=',
             thingKey: '=',
+            onStart: '&',
+            onStartThing: '&',
             onFinish: '&',
             onFinishThing: '&'
         },
@@ -174,7 +176,7 @@ function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAns
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
-    ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onFinish, $scope.onFinishThing);
+    ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
     $scope.current = ThingsService.getCurrentThing();
     $scope.current.scope = _.clone(FormAnswerService.get());
     $scope.currentTitle = getCurrentTitle($scope.current);
@@ -296,16 +298,23 @@ var ThingsService = (function () {
         this.$stateParams = $stateParams;
         this.FormAnswerService = FormAnswerService;
     }
-    ThingsService.prototype.load = function (transitions, things, actualThingKey, onFinish, onFinishThing) {
+    ThingsService.prototype.load = function (transitions, things, actualThingKey, onStart, onStartThing, onFinish, onFinishThing) {
+        this.onFinish = onFinish;
+        this.onFinishThing = onFinishThing;
         this.executionService = new execution_service_1.ExecutionService(transitions, things, this.FormAnswerService.get());
         if (actualThingKey) {
             this.executionService.go(actualThingKey);
         }
         else {
-            this.executionService.start();
+            actualThingKey = this.executionService.start();
+            if (onStart) {
+                onStart({ model: this.FormAnswerService.get() });
+            }
         }
-        this.onFinish = onFinish;
-        this.onFinishThing = onFinishThing;
+        var current = this.executionService.getCurrent();
+        if (onStartThing) {
+            onStartThing({ thing: current, model: this.FormAnswerService.get() });
+        }
     };
     ThingsService.prototype.getCurrentThing = function () {
         return this.executionService.getCurrent();

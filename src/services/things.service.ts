@@ -15,16 +15,28 @@ export class ThingsService {
   /*@ngInject*/
   constructor(private $state, private $stateParams, private FormAnswerService) { }
 
-  load(transitions, things, actualThingKey, onFinish, onFinishThing) {
+  load(transitions, things, actualThingKey, onStart, onStartThing, onFinish, onFinishThing) {
+    this.onFinish = onFinish;
+    this.onFinishThing = onFinishThing;
+    
     this.executionService = new ExecutionService(transitions, things, this.FormAnswerService.get());
+    
     if (actualThingKey) {
       this.executionService.go(actualThingKey);
     } else {
-      this.executionService.start();
-    }
+      actualThingKey = this.executionService.start();
 
-    this.onFinish = onFinish;
-    this.onFinishThing = onFinishThing;
+      // Tell to controller that is started
+      if (onStart) {
+        onStart({ model: this.FormAnswerService.get() });
+      }
+    }
+    var current = this.executionService.getCurrent();
+
+    //onStartThing
+    if (onStartThing) {
+      onStartThing({ thing: current, model: this.FormAnswerService.get() });
+    }
   }
 
   getCurrentThing() {

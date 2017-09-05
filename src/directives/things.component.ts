@@ -18,6 +18,9 @@ export default angular.module(ngModuleName + '.things', [])
         model: '=',
         thingKey: '=',
 
+        onStart: '&',
+        onStartThing: '&',
+
         onFinish: '&',
         onFinishThing: '&'
       },
