@@ -187,7 +187,7 @@ function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAns
         }, 50);
     };
     $timeout(function () {
-        $scope.startedValid = $scope.thingForm.$valid;
+        $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
         if (!$scope.startedValid && $scope.current.immediate) {
             executeImmediate();
         }
@@ -253,8 +253,10 @@ exports.default = angular.module(module_name_1.default + '.tips', [])
 
 "use strict";
 
+TipsController.$inject = ["$scope", "$parse"];
 Object.defineProperty(exports, "__esModule", { value: true });
 function TipsController($scope, $parse) {
+    'ngInject';
     if ($scope.tips) {
         $scope.tips.forEach(function (tip) {
             if (tip.condition) {
