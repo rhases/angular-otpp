@@ -31,7 +31,7 @@
     "ngc": "./node_modules/.bin/ngc",
     "lint": "./node_modules/.bin/tslint 'src/**/*.ts' 'demo/**/*.ts'",
     "commit": "npm run build && git-cz",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build && npm test",
     "build": "npm run build:lib && npm run build:bundles:compile && npm run copy:sass",
     "prebuild:lib": "shx rm -rf ./lib",
     "copy:sass": "shx cp ./src/index.scss ./dist/style.scss",
