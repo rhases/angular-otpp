@@ -19,6 +19,8 @@ Links:
 [![PRs Welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
  -->
 
+[![Build Status](https://travis-ci.org/rhases/angular-otpp.svg?branch=master)](https://travis-ci.org/rhases/angular-otpp)
+
 angular-otpp is an AngularJS module which has a directive that helps creating "one thing per page" designs.
 <!--
 angular-formly is an AngularJS module which has a directive to help customize and render JavaScript/JSON configured forms.
