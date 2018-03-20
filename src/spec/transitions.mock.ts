@@ -2,13 +2,11 @@
 
 export default [{
     from: "start",
-    to: 'state-1',
-    condition: undefined
+    to: 'state-1'
   },
   {
     from: "state-1",
-    to: 'state-2',
-    condition: undefined
+    to: 'state-2'
   },
   {
     from: "state-2",

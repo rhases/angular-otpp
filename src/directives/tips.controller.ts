@@ -1,4 +1,7 @@
+'use strict';
+
 export default function TipsController($scope, $parse) {
+  'ngInject';
 
   if ($scope.tips) {
     $scope.tips.forEach(function(tip) {

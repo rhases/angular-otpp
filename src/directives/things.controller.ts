@@ -1,9 +1,12 @@
+'use strict';
+
 var _ = require('lodash');
 
 import { ThingsService } from '../services/things.service'
 import { FormAnswerService } from '../services/form-answer.service'
 
 export default function ThingsController($scope: any, $timeout, $sce, $parse, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
+  'ngInject';
 
   if (!$scope.transitions || !$scope.things)
     return;
@@ -26,7 +29,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
   }
 
   $timeout(function() {
-    $scope.startedValid = $scope.thingForm.$valid;
+    $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
 
     if (!$scope.startedValid && $scope.current.immediate) {
       executeImmediate();

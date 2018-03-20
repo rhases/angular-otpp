@@ -170,9 +170,11 @@ exports.default = angular.module(module_name_1.default + '.things', [])
 
 "use strict";
 
+ThingsController.$inject = ["$scope", "$timeout", "$sce", "$parse", "ThingsService", "FormAnswerService", "$stateParams"];
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(1);
 function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAnswerService, $stateParams) {
+    'ngInject';
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
@@ -188,7 +190,7 @@ function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAns
         }, 50);
     };
     $timeout(function () {
-        $scope.startedValid = $scope.thingForm.$valid;
+        $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
         if (!$scope.startedValid && $scope.current.immediate) {
             executeImmediate();
         }
@@ -263,8 +265,10 @@ exports.default = angular.module(module_name_1.default + '.tips', [])
 
 "use strict";
 
+TipsController.$inject = ["$scope", "$parse"];
 Object.defineProperty(exports, "__esModule", { value: true });
 function TipsController($scope, $parse) {
+    'ngInject';
     if ($scope.tips) {
         $scope.tips.forEach(function (tip) {
             if (tip.condition) {

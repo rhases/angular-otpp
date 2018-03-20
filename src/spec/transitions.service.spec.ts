@@ -14,7 +14,7 @@ describe('OTPP: TransitionsService', function() {
   beforeEach(function(){
     this.scope = {}
     this.transitionsService = new TransitionsService(mockTransitions,  this.scope );
-    this.transitionsService.start();
+    this.transitionsService.getStartThing();
   });
 
   it('should it begin at a from "start" state', function() {
@@ -23,28 +23,20 @@ describe('OTPP: TransitionsService', function() {
   });
 
   it('should it transit to the next state if has no condition', function() {
-    expect(this.transitionsService.next()).toEqual("state-2");
+    expect(this.transitionsService.getNextThing()).toEqual("state-2");
     expect(this.transitionsService.current).toEqual("state-2");
   });
 
   it('should it fork evaluating a condition', function() {
     this.transitionsService.go("state-2"); //
     this.scope.exampleStateVarNumber = 3;
-    this.transitionsService.next();
+    this.transitionsService.getNextThing();
     expect(this.transitionsService.current).toEqual("state-3");
 
     this.transitionsService.go("state-2"); //
     this.scope.exampleStateVarNumber = 4;
-    this.transitionsService.next();
+    this.transitionsService.getNextThing();
     expect(this.transitionsService.current).toEqual("state-4");
   });
-
-  // it('should it fork evaluating a condition', function() {
-  //   this.transitionsService.next() //
-  //   expect(this.transitionsService.next()).toEqual("state-2");
-  //   expect(this.transitionsService.current).toEqual("state-2");
-  // });
-
-
 
 });
