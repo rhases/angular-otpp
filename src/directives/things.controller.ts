@@ -15,7 +15,8 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
   $scope.current = ThingsService.getCurrentThing();
   $scope.current.scope = _.clone(FormAnswerService.get());
 
-  $scope.currentTitle = getCurrentTitle($scope.current)
+  $scope.currentTitle = resolve($scope.current, $scope.current.title )
+  $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle)
 
   $scope.next = function() {
     FormAnswerService.add($scope.current.scope);
@@ -45,15 +46,22 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
     }
   }
 
-  function getCurrentTitle(thing) {
-    if (_.isObject(thing.title)) {
-      for (var key in thing.title) {
-        if($parse(key)({ scope: thing.scope }))
-          return $sce.trustAsHtml(thing.title[key]);
+  function resolve(thing, expression) {
+    let value;
+    if (_.isObject(expression)) {
+      for (var key in expression) {
+        if($parse(key)({ scope: thing.scope })){
+          value = expression[key];
+        }
       }
+    }else {
+      value = expression;
     }
-
-    return $sce.trustAsHtml(thing.title);
+    if (value && value.charAt(0) == '`') {
+      var scope = thing.scope;
+      eval("value = " + value)
+    }
+    return $sce.trustAsHtml(value);
   }
 
 }
