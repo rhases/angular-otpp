@@ -15,7 +15,7 @@ describe('OTPP: ExecutionService', function() {
 
   beforeEach(function(){
     this.scope = {}
-    this.executionService = new ExecutionService(mockTransitions, mockThings, this.scope );
+    this.executionService = new ExecutionService(mockTransitions, mockThings, this.scope);
     this.executionService.start();
   });
 
@@ -41,12 +41,23 @@ describe('OTPP: ExecutionService', function() {
     expect(this.executionService.getCurrent().key).toEqual("state-4");
   });
 
+
+  it('should it imediate transition from a condition', function () {
+    this.executionService.go("state-2"); //
+    this.scope.exampleStateVarNumber = 3;
+    this.executionService.next();
+    expect(this.executionService.getCurrent().key).toEqual("state-3");
+
+    this.executionService.go("state-2"); //
+    this.scope.exampleStateVarNumber = 4;
+    this.executionService.next();
+    expect(this.executionService.getCurrent().key).toEqual("state-4");
+  });
+
   // it('should it fork evaluating a condition', function() {
   //   this.transitionsService.next() //
   //   expect(this.transitionsService.next()).toEqual("state-2");
   //   expect(this.transitionsService.current).toEqual("state-2");
   // });
-
-
 
 });
