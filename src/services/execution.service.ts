@@ -23,18 +23,12 @@ export class ExecutionService {
   }
 
   createMap(things: Thing[]) {
-    let self = this;
-    let start = things.find(thing =>  thing && thing.key === 'start');
-    if(!start) {
-      self.thingsMap = { "start": new Thing() };
-    } else {
-      self.thingsMap = { };
-    }
+    this.thingsMap = { "start": new Thing() };
     things.forEach((thing) => {
-      if (self.thingsMap[thing.key]) {
+      if (this.thingsMap[thing.key]) {
         throw Error('Error inializing otpp execution. Multiple things with the same key')
       }
-      self.thingsMap[thing.key] = thing;
+      this.thingsMap[thing.key] = thing;
     })
   }
 
