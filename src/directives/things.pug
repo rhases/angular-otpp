@@ -5,7 +5,7 @@
       h2.thing-title(ng-bind-html="currentSubtitle")
       br.hidden-xs
       br
-      form.form-horizontal(name='thingForm', novalidate='')
+      form.form-horizontal(name='thingForm', novalidate='', ng-class='current.formClass')
         .thing-form
           formly-form(model='current.scope', fields='current.fields')
           br.hidden-xs
