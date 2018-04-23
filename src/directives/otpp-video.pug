@@ -1,5 +1,19 @@
 .video-box
-  videogular(vg-theme="config.theme.url")
+  videogular(vg-theme="config.theme.url"
+   vg-auto-play="config.autoPlay")
     vg-media(vg-src="config.sources"
       vg-tracks="config.tracks"
-      vg-native-controls="true")
+      vg-native-controls="!!config.nativeControls || false")
+    span(ng-if="!config.nativeControls" )
+      vg-controls(vg-autohide="controller.config.plugins.controls.autoHide" 
+        vg-autohide-time="controller.config.plugins.controls.autoHideTime")
+        vg-play-pause-button
+        vg-time-display {{ currentTime | date:'mm:ss':'+0000' }}
+        vg-scrub-bar
+            vg-scrub-bar-current-time
+        vg-time-display {{ timeLeft | date:'mm:ss':'+0000' }}
+        vg-time-display {{ totalTime | date:'mm:ss':'+0000' }}
+        vg-volume
+          vg-mute-button
+          vg-volume-bar
+        vg-fullscreen-button

@@ -60,7 +60,9 @@ export default {
           ],
           theme: {
             url: "https://unpkg.com/videogular@2.1.2/dist/themes/default/videogular.css"
-          }
+          },
+          autoPlay:true,
+          //nativeControls:false
         }
       },
       {

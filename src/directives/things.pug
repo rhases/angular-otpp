@@ -2,7 +2,7 @@
   .row
     .col-sm-12
       h2.thing-title(ng-bind-html="currentTitle")
-      h2.thing-title(ng-bind-html="currentSubtitle")
+      h2.thing-title(ng-bind-html="currentSubtitle" ng-if="!!currentSubtitle")
       br.hidden-xs
       br
       span(ng-if='!!current.video')
