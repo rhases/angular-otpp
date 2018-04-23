@@ -1,3 +1,48 @@
+
+.video-box {
+    width: 100%;
+    height: 320px;
+    margin: auto;
+    overflow: hidden;
+    margin-bottom: 1em;
+}
+
+@media (min-width: 1200px) {
+    .video-box {
+        width: 1170px;
+        height: 658.125px;
+    }
+
+    .video-box.audio {
+        width: 1170px;
+        height: 50px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .video-box {
+        width: 940px;
+        height: 528.75px;
+    }
+
+    .video-box.audio {
+        width: 940px;
+        height: 50px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .video-box {
+        width: 728px;
+        height: 409.5px;
+    }
+
+    .video-box.audio {
+        width: 728px;
+        height: 50px;
+    }
+}
+
 .tips-box {
   $default-tip-border-color: #bce8f1;
   $tip-border-color: if(global-variable-exists('alert-info-border'), $alert-info-border, $default-tip-border-color);
