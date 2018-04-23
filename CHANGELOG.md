@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.26"></a>
+## [0.1.26](https://github.com/rhases/angular-otpp/compare/v0.1.24...v0.1.26) (2018-04-23)
+
+
+
 <a name="0.1.24"></a>
 ## [0.1.24](https://github.com/rhases/angular-otpp/compare/v0.1.23...v0.1.24) (2018-04-23)
 
