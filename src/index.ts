@@ -4,6 +4,7 @@ const formly = require('angular-formly');
 const formlyTemplatesBootstrap = require('angular-formly-templates-bootstrap');
 
 import things from './directives/things.component'
+import video from './directives/otpp-video.component';
 import tips from './directives/tips.component'
 
 import { ThingsService }  from './services/things.service'
@@ -20,7 +21,8 @@ const ngModule = angular.module(ngModuleName, [
   formly,
   formlyTemplatesBootstrap,
   things,
-  tips
+  tips,
+  video
 ])
 
 //ngModule.constant('formlyVersion', VERSION) // <-- webpack variable

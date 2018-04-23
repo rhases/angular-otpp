@@ -5,6 +5,8 @@
       h2.thing-title(ng-bind-html="currentSubtitle")
       br.hidden-xs
       br
+      span(ng-if='!!current.video')
+        otpp-video(video-config='current.video')
       form.form-horizontal(name='thingForm', novalidate='', ng-class='current.formClass')
         .thing-form
           formly-form(model='current.scope', fields='current.fields')
