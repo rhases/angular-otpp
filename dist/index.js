@@ -180,7 +180,7 @@ function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAns
     if (!$scope.transitions || !$scope.things)
         return;
     FormAnswerService.start($scope, 'model');
-    ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
+    ThingsService.load($scope.transitions, $scope.things, $scope.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
     $scope.current = ThingsService.getCurrentThing();
     $scope.current.scope = _.clone(FormAnswerService.get());
     $scope.currentTitle = resolve($scope.current, $scope.current.title);
