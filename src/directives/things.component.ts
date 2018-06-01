@@ -14,6 +14,7 @@ export default angular.module(ngModuleName + '.things', [])
       scope: {
         transitions: '=',
         things: '=',
+        enableBackButton: '=',
 
         model: '=',
         thingKey: '=',

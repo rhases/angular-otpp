@@ -153,6 +153,7 @@ exports.default = angular.module(module_name_1.default + '.things', [])
         scope: {
             transitions: '=',
             things: '=',
+            enableBackButton: '=',
             model: '=',
             thingKey: '=',
             onStart: '&',
@@ -172,10 +173,10 @@ exports.default = angular.module(module_name_1.default + '.things', [])
 
 "use strict";
 
-ThingsController.$inject = ["$scope", "$timeout", "$sce", "$parse", "ThingsService", "FormAnswerService", "$stateParams"];
+ThingsController.$inject = ["$scope", "$timeout", "$sce", "$parse", "$window", "ThingsService", "FormAnswerService", "$stateParams"];
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(2);
-function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAnswerService, $stateParams) {
+function ThingsController($scope, $timeout, $sce, $parse, $window, ThingsService, FormAnswerService, $stateParams) {
     'ngInject';
     if (!$scope.transitions || !$scope.things)
         return;
@@ -190,6 +191,9 @@ function ThingsController($scope, $timeout, $sce, $parse, ThingsService, FormAns
         $timeout(function () {
             ThingsService.next();
         }, 50);
+    };
+    $scope.back = function () {
+        $window.history.back();
     };
     $timeout(function () {
         $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
@@ -233,7 +237,7 @@ exports.default = ThingsController;
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\" ng-bind-html=\"currentTitle\"></h2><h2 class=\"thing-title\" ng-bind-html=\"currentSubtitle\" ng-if=\"!!currentSubtitle\"></h2><br class=\"hidden-xs\"/><br/><span ng-if=\"!!current.video\"><otpp-video video-config=\"current.video\"></otpp-video></span><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\" ng-class=\"current.formClass\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-right\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></div></form></div></div></div>"
+module.exports = "<div class=\"things-box\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\" ng-bind-html=\"currentTitle\"></h2><h2 class=\"thing-title\" ng-bind-html=\"currentSubtitle\" ng-if=\"!!currentSubtitle\"></h2><br class=\"hidden-xs\"/><br/><span ng-if=\"!!current.video\"><otpp-video video-config=\"current.video\"></otpp-video></span><form class=\"form-horizontal\" name=\"thingForm\" novalidate=\"\" ng-class=\"current.formClass\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-righ btn-group\" ng-hide=\"!startedValid &amp;&amp; current.immediate\"><button class=\"btn btn-secondary btn-lg\" ng-click=\"back()\" ng-hide=\"!enableBackButton\"> <i class=\"fa fa-caret-left\"></i></button><button class=\"btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\"> Próximo</button></div></div></form></div></div></div>"
 
 /***/ }),
 /* 10 */

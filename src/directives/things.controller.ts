@@ -5,7 +5,7 @@ var _ = require('lodash');
 import { ThingsService } from '../services/things.service'
 import { FormAnswerService } from '../services/form-answer.service'
 
-export default function ThingsController($scope: any, $timeout, $sce, $parse, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
+export default function ThingsController($scope: any, $timeout, $sce, $parse, $window, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
   'ngInject';
 
   if (!$scope.transitions || !$scope.things)
@@ -26,6 +26,10 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
     $timeout(function() {
       ThingsService.next();
     }, 50)
+  }
+
+  $scope.back = function() {
+    $window.history.back();
   }
 
   $timeout(function() {
@@ -66,5 +70,4 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
     }
     return $sce.trustAsHtml(value);
   }
-
 }

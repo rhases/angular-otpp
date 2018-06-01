@@ -14,5 +14,7 @@
           tips(tips='current.tips.values', image='current.tips.image', values='current.scope')
           br.hidden-xs(ng-show="current.tips && current.tips.values.length > 0")
         .thing-button
-          .text-right(ng-hide="!startedValid && current.immediate")
+          .text-righ.btn-group(ng-hide="!startedValid && current.immediate")
+            button.btn.btn-secondary.btn-lg(ng-click='back()' ng-hide="!enableBackButton")  
+              i.fa.fa-caret-left
             button.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending')  Próximo
