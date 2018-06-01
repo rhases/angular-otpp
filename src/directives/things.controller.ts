@@ -13,7 +13,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, Th
 
   FormAnswerService.start($scope, 'model');
 
-  ThingsService.load($scope.transitions, $scope.things, $stateParams.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
+  ThingsService.load($scope.transitions, $scope.things, $scope.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
 
   $scope.current = ThingsService.getCurrentThing();
   $scope.current.scope = _.clone(FormAnswerService.get());
