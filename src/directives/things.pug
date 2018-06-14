@@ -1,8 +1,11 @@
-.things-box
+.things-box(ng-class='current.thingClass')
   .row
     .col-sm-12
       h2.thing-title(ng-bind-html="currentTitle")
       h2.thing-title(ng-bind-html="currentSubtitle" ng-if="!!currentSubtitle")
+      p.thing-text(ng-bind-html="currentText" ng-if="!!currentText" ng-class="current.textClass")
+      div.thing-images(ng-repeat="image in current.images" ng-if="!!current.images")
+        img.thing-image(ng-src="{{image.src}}" alt='{{image.alt}}' ng-class="image.class")
       br.hidden-xs
       br
       span(ng-if='!!current.video')
@@ -15,6 +18,6 @@
           br.hidden-xs(ng-show="current.tips && current.tips.values.length > 0")
         .thing-button
           .text-righ.btn-group(ng-hide="!startedValid && current.immediate")
-            button.pull-right.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending')  Próximo
-            button.pull-left.btn.btn-secondary.btn-lg(ng-click='back()' ng-hide="!enableBackButton")  
+            button.pull-right.btn.btn-primary.btn-lg(ng-click='next()', ng-disabled='thingForm.$invalid || thingForm.$pending' ng-hide="current.disableNextButton")  Próximo
+            button.pull-left.btn.btn-secondary.btn-lg(ng-click='back()' ng-hide="!enableBackButton || current.disableBackButton")  
               i.fa.fa-caret-left

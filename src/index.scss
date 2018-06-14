@@ -42,7 +42,12 @@
         height: 50px;
     }
 }
-
+.thing-text {
+    padding-top: 1em;
+}
+.thing-images {
+    padding-top: 1em;
+}
 .tips-box {
   $default-tip-border-color: #bce8f1;
   $tip-border-color: if(global-variable-exists('alert-info-border'), $alert-info-border, $default-tip-border-color);

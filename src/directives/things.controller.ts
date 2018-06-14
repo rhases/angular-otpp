@@ -20,6 +20,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
 
   $scope.currentTitle = resolve($scope.current, $scope.current.title )
   $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle)
+  $scope.currentText = resolve($scope.current, $scope.current.text)
 
   $scope.next = function() {
     FormAnswerService.add($scope.current.scope);
