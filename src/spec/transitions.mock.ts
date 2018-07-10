@@ -17,4 +17,19 @@ export default [{
     from: "state-2",
     to: 'state-4',
     condition: 'scope.exampleStateVarNumber == 4'
+  },
+  {
+    from: "state-4",
+    to: 'state-5',
+    skip: 'true'
+  },
+  {
+    from: "state-5",
+    to: 'state-6',
+    skip: 'false'
+  },
+  {
+    from: "state-6",
+    to: 'state-7',
+    skip: 'false'
   }]

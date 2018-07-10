@@ -4749,10 +4749,14 @@ var TransitionsService = (function () {
         this.scope = scope;
     }
     TransitionsService.prototype.getStartThing = function () {
-        return this.nextThingFromCurrentKey("start");
+        return this.nextThingKeyFromCurrentKey("start");
     };
     TransitionsService.prototype.getNextThing = function () {
-        return this.nextThingFromCurrentKey(this.current);
+        return this.nextThingKeyFromCurrentKey(this.current);
+    };
+    TransitionsService.prototype.nextThingKeyFromCurrentKey = function (currentKey) {
+        this.current = this.nextThingFromCurrentKey(currentKey).to;
+        return this.current;
     };
     TransitionsService.prototype.nextThingFromCurrentKey = function (currentKey) {
         var _this = this;
@@ -4774,8 +4778,14 @@ var TransitionsService = (function () {
         if (nextArr.length > 1) {
             throw Error('more then one destination state found from "' + currentKey + '" state');
         }
-        this.current = nextArr[0].to;
-        return this.current;
+        var currentThing = nextArr[0];
+        if (!!currentThing.skip
+            && this.evaluate(this.scope, currentThing.skip)) {
+            return this.nextThingFromCurrentKey(currentThing.to);
+        }
+        else {
+            return currentThing;
+        }
     };
     TransitionsService.prototype.go = function (thingKey) {
         this.current = thingKey;

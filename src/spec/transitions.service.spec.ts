@@ -39,4 +39,10 @@ describe('OTPP: TransitionsService', function() {
     expect(this.transitionsService.current).toEqual("state-4");
   });
 
+  it('should it skip if evaluating a skip to true', function () {
+    this.transitionsService.go("state-4"); //
+    this.transitionsService.getNextThing();
+    expect(this.transitionsService.current).toEqual("state-6");
+  });
+
 });

@@ -14,14 +14,20 @@ export class TransitionsService {
   }
 
   getStartThing(): string {
-    return this.nextThingFromCurrentKey("start");
+    return this.nextThingKeyFromCurrentKey("start");
   }
 
   getNextThing(): string {
-    return this.nextThingFromCurrentKey(this.current);
+    return this.nextThingKeyFromCurrentKey(this.current);
   }
 
-  nextThingFromCurrentKey(currentKey: string): string {
+
+  nextThingKeyFromCurrentKey(currentKey: string): string {
+    this.current = this.nextThingFromCurrentKey(currentKey).to;
+    return this.current;
+  }
+
+  nextThingFromCurrentKey(currentKey: string): Transition {
     var nextArr = this.transitions
       .filter((transition) => {
         return (transition.from === currentKey)
@@ -40,8 +46,13 @@ export class TransitionsService {
     if (nextArr.length > 1) {
       throw Error('more then one destination state found from "' + currentKey + '" state');
     }
-    this.current = nextArr[0].to;
-    return this.current;
+    let currentThing = nextArr[0];
+    if (!!currentThing.skip 
+        && this.evaluate(this.scope, currentThing.skip)){
+      return this.nextThingFromCurrentKey(currentThing.to);
+    } else {
+      return currentThing;
+    }
   }
 
   go(thingKey: string): string {
