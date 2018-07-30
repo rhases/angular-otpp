@@ -155,6 +155,7 @@ exports.default = angular.module(module_name_1.default + '.things', [])
             things: '=',
             enableBackButton: '=',
             model: '=',
+            form: '=',
             thingKey: '=',
             onStart: '&',
             onStartThing: '&',
@@ -184,6 +185,7 @@ function ThingsController($scope, $timeout, $sce, $parse, $window, ThingsService
     ThingsService.load($scope.transitions, $scope.things, $scope.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
     $scope.current = ThingsService.getCurrentThing();
     $scope.current.scope = _.clone(FormAnswerService.get());
+    $scope.current.scope.form = $scope.form;
     $scope.currentTitle = resolve($scope.current, $scope.current.title);
     $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle);
     $scope.currentText = resolve($scope.current, $scope.current.text);
