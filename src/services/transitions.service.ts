@@ -21,7 +21,6 @@ export class TransitionsService {
     return this.nextThingKeyFromCurrentKey(this.current);
   }
 
-
   nextThingKeyFromCurrentKey(currentKey: string): string {
     this.current = this.nextThingFromCurrentKey(currentKey).to;
     return this.current;

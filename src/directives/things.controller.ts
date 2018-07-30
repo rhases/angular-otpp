@@ -17,7 +17,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
 
   $scope.current = ThingsService.getCurrentThing();
   $scope.current.scope = _.clone(FormAnswerService.get());
-
+  $scope.current.scope.form = $scope.form;
   $scope.currentTitle = resolve($scope.current, $scope.current.title )
   $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle)
   $scope.currentText = resolve($scope.current, $scope.current.text)

@@ -17,6 +17,7 @@ export default angular.module(ngModuleName + '.things', [])
         enableBackButton: '=',
 
         model: '=',
+        form: '=',
         thingKey: '=',
 
         onStart: '&',
