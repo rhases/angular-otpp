@@ -1,16 +1,16 @@
 .things-box(ng-class='current.thingClass')
   .row
     .col-sm-12
-      h2.thing-title(ng-bind-html="currentTitle")
+      h2.thing-title(ng-bind-html="currentTitle" ng-if="!!currentTitle")
       h2.thing-title(ng-bind-html="currentSubtitle" ng-if="!!currentSubtitle")
       p.thing-text(ng-bind-html="currentText" ng-if="!!currentText" ng-class="current.textClass")
       div.thing-images(ng-repeat="image in current.images" ng-if="!!current.images")
         img.thing-image(ng-src="{{image.src}}" alt='{{image.alt}}' ng-class="image.class")
       br.hidden-xs
-      br
+      //- br
       span(ng-if='!!current.video')
         otpp-video(video-config='current.video')
-      form.form-horizontal(name='thingForm', novalidate='', ng-class='current.formClass')
+      form.form-vertical(name='thingForm', novalidate='', ng-class='current.formClass')
         .thing-form
           formly-form(model='current.scope', fields='current.fields')
           br.hidden-xs
