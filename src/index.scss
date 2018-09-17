@@ -68,8 +68,10 @@
 
   .tip {
     .tip-image {
-      padding: 5px;
-      width: 75px;
+        object-fit: cover;
+        width: 75px;
+        height: 75px;
+        padding: 5px;
     }
 
     .tip-message {
