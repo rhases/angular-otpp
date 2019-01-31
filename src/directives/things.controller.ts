@@ -5,7 +5,8 @@ var _ = require('lodash');
 import { ThingsService } from '../services/things.service'
 import { FormAnswerService } from '../services/form-answer.service'
 
-export default function ThingsController($scope: any, $timeout, $sce, $parse, $window, $filter, ThingsService: ThingsService, FormAnswerService: FormAnswerService, $stateParams: any) {
+export default function ThingsController($scope: any, $timeout, $sce, $parse, $window, $filter, ThingsService: ThingsService, 
+  FormAnswerService: FormAnswerService, $stateParams: any, $log: any) {
   'ngInject';
 
   if (!$scope.transitions || !$scope.things)
@@ -68,7 +69,11 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
     if (value && value.charAt(0) == '`') {
       var formatCurrency = $filter('currency');
       var scope = thing.scope;
-      eval("value = " + value)
+      try {
+        eval("value = " + value)
+      } catch(err) {
+        $log.error(err);
+      }
     }
     return $sce.trustAsHtml(value);
   }
