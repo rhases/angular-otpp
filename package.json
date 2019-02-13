@@ -1,6 +1,6 @@
 {
   "name": "angular-otpp",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "author": "Gabriel Rodrigues <gabriel.rodrigues@rhases.com.br>",
   "contributors": [
     "Gabriel Rodrigues <gabriel.rodrigues@rhases.com.br>",
@@ -70,7 +70,7 @@
     "@angular/forms": "^2.4.10",
     "@angular/platform-browser": "^2.4.10",
     "@angular/platform-browser-dynamic": "^2.4.10",
-    "@types/angular": "^1.6.45",
+    "@types/angular": "^1.6.54",
     "@types/jasmine": "2.5.40",
     "@types/node": "^7.0.65",
     "angular": "^1.7.0",
