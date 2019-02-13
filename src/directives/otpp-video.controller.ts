@@ -5,14 +5,15 @@ export default function OtppVideoController($scope, $sce) {
 
   if ($scope.videoConfig && $scope.videoConfig.sources){
     
-    $scope.videoConfig.sources = $scope.videoConfig.sources
-    .map( ({ src, ...others}) => {
-          return {
-            src: $sce.trustAsResourceUrl(src),
-            ...others
-          }
+    let { sources, ...others } = $scope.videoConfig;
+
+    $scope.config = others;
+    $scope.config.sources = sources
+      .map(({ src, ...others }) => {
+        return {
+          src: $sce.trustAsResourceUrl(src),
+          ...others
         }
-      )
+      })
   }
-  $scope.config = $scope.videoConfig;
 }
