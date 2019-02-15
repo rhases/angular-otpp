@@ -16,17 +16,18 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
 
   ThingsService.load($scope.transitions, $scope.things, $scope.thingKey, $scope.onStart, $scope.onStartThing, $scope.onFinish, $scope.onFinishThing);
 
-  $scope.current = ThingsService.getCurrentThing();
-  $scope.current.scope = _.clone(FormAnswerService.get());
-  $scope.current.scope.form = $scope.form;
-  $scope.currentTitle = resolve($scope.current, $scope.current.title )
-  $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle)
-  $scope.currentText = resolve($scope.current, $scope.current.text)
+  loadThing();
 
   $scope.next = function() {
     FormAnswerService.add($scope.current.scope);
     $timeout(function() {
-      ThingsService.next();
+      const nextThing = ThingsService.next();
+      if (nextThing){
+        // var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })
+        // this.$state.go(this.$state.current.name, stateParams);
+
+        loadThing();
+      }
     }, 50)
   }
 
@@ -41,6 +42,16 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
       executeImmediate();
     }
   }, 250)
+
+
+  function loadThing(){
+    $scope.current = ThingsService.getCurrentThing();
+    $scope.current.scope = _.clone(FormAnswerService.get());
+    $scope.current.scope.form = $scope.form;
+    $scope.currentTitle = resolve($scope.current, $scope.current.title)
+    $scope.currentSubtitle = resolve($scope.current, $scope.current.subtitle)
+    $scope.currentText = resolve($scope.current, $scope.current.text)
+  }
 
   function executeImmediate() {
     var checkIfCanPassDebounced = _.debounce(checkIfCanPass, 250, { 'maxWait': 1500 });

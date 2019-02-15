@@ -57,10 +57,8 @@ export class ThingsService {
         this.onFinish({ model: this.FormAnswerService.get() });
       }
     } else {
-      var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })
-      this.$state.go(this.$state.current.name, stateParams);
+      return nextThing;
     }
-
   }
 
 }

@@ -11,7 +11,7 @@ export class FormAnswerService {
     this.scope = scope;
     this.propName = propName;
 
-    this.scope[this.propName] = _.merge(this.scope[this.propName], this.formAnswer);
+    //this.scope[this.propName] = _.merge(this.scope[this.propName], this.formAnswer);
   }
 
   get(): any {
@@ -24,9 +24,8 @@ export class FormAnswerService {
         return srcValue;
       }
     }
-
-    this.formAnswer = _.mergeWith(this.formAnswer, oneThingAnswer, mergeUsingSourceArray);
-    this.scope[this.propName] = _.mergeWith(this.scope[this.propName], this.formAnswer, mergeUsingSourceArray);
+    //this.formAnswer = _.mergeWith(this.formAnswer, oneThingAnswer, mergeUsingSourceArray);
+    //this.scope[this.propName] = _.mergeWith(this.scope[this.propName], this.formAnswer, mergeUsingSourceArray);
+    this.scope[this.propName] = oneThingAnswer;
   }
-
 }
