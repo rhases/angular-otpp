@@ -34,13 +34,15 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
     $window.history.back();
   }
 
-  $timeout(function() {
-    $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
-
-    if (!$scope.startedValid && $scope.current.immediate) {
-      executeImmediate();
-    }
-  }, 250)
+  this.$onInit = function () {
+    $timeout(function () {
+      $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
+      if ($scope.current.immediate
+        && (!$scope.startedValid || _.isEmpty($scope.current.fields))) {
+        executeImmediate();
+      }
+    }, 250)
+  }
 
   function executeImmediate() {
     var checkIfCanPassDebounced = _.debounce(checkIfCanPass, 250, { 'maxWait': 1500 });

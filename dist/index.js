@@ -198,12 +198,15 @@ function ThingsController($scope, $timeout, $sce, $parse, $window, $filter, Thin
     $scope.back = function () {
         $window.history.back();
     };
-    $timeout(function () {
-        $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
-        if (!$scope.startedValid && $scope.current.immediate) {
-            executeImmediate();
-        }
-    }, 250);
+    this.$onInit = function () {
+        $timeout(function () {
+            $scope.startedValid = $scope.thingForm && $scope.thingForm.$valid;
+            if ($scope.current.immediate
+                && (!$scope.startedValid || _.isEmpty($scope.current.fields))) {
+                executeImmediate();
+            }
+        }, 250);
+    };
     function executeImmediate() {
         var checkIfCanPassDebounced = _.debounce(checkIfCanPass, 250, { 'maxWait': 1500 });
         $scope.$watch(function () { return $scope.thingForm.$invalid && $scope.thingForm.$pending; }, checkIfCanPassDebounced);
@@ -4323,13 +4326,14 @@ var tslib_1 = __webpack_require__(16);
 function OtppVideoController($scope, $sce) {
     'ngInject';
     if ($scope.videoConfig && $scope.videoConfig.sources) {
-        $scope.videoConfig.sources = $scope.videoConfig.sources
+        var _a = $scope.videoConfig, sources = _a.sources, others = tslib_1.__rest(_a, ["sources"]);
+        $scope.config = others;
+        $scope.config.sources = sources
             .map(function (_a) {
             var src = _a.src, others = tslib_1.__rest(_a, ["src"]);
             return tslib_1.__assign({ src: $sce.trustAsResourceUrl(src) }, others);
         });
     }
-    $scope.config = $scope.videoConfig;
 }
 exports.default = OtppVideoController;
 
