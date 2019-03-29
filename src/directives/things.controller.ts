@@ -31,7 +31,7 @@ export default function ThingsController($scope: any, $timeout, $sce, $parse, $w
   }
 
   $scope.back = function() {
-    $window.history.back();
+    ThingsService.back();
   }
 
   this.$onInit = function () {

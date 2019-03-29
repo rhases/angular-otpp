@@ -12,6 +12,8 @@ export class ThingsService {
   onFinish: Function;
   onFinishThing: Function;
 
+  previousStates =[];
+
   /*@ngInject*/
   constructor(private $state, private $stateParams, private FormAnswerService) { }
 
@@ -57,10 +59,28 @@ export class ThingsService {
         this.onFinish({ model: this.FormAnswerService.get() });
       }
     } else {
+      this.addToStatesStack(nextThing.key);
       var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })
       this.$state.go(this.$state.current.name, stateParams);
     }
+  }
 
+  back() {
+    let actual = this.previousStates.pop();
+    let previous = this.previousStates.pop();
+    if (!previous){
+      previous = 'start';
+    }
+    var stateParams = _.merge(this.$stateParams, { thingKey: previous })
+    this.$state.go(this.$state.current.name, stateParams);
+  }
+
+  addToStatesStack(state){
+    let peek = this.previousStates[this.previousStates.length - 1];
+    if (peek == state){
+      return;
+    } 
+    this.previousStates.push(state); 
   }
 
 }
