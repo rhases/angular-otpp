@@ -34,7 +34,7 @@ export class ThingsService {
       }
     }
     var current = this.executionService.getCurrent();
-    this.addToStatesStack(current.key);
+    this.addToStatesStack(current);
     //onStartThingnpm
     if (onStartThing) {
       onStartThing({ thing: current, model: this.FormAnswerService.get() });
@@ -74,12 +74,16 @@ export class ThingsService {
     this.$state.go(this.$state.current.name, stateParams);
   }
 
-  addToStatesStack(state){
+  addToStatesStack(current){
+    let isService = current.fields && current.fields.every(field => field.type == 'call-service');
+    if (isService && current.immediate){
+      return;
+    }
     let peek = this.previousStates[this.previousStates.length - 1];
-    if (peek == state){
+    if (peek == current.key){
       return;
     } 
-    this.previousStates.push(state); 
+    this.previousStates.push(current.key); 
   }
 
 }

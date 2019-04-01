@@ -4645,7 +4645,7 @@ var ThingsService = (function () {
             }
         }
         var current = this.executionService.getCurrent();
-        this.addToStatesStack(current.key);
+        this.addToStatesStack(current);
         if (onStartThing) {
             onStartThing({ thing: current, model: this.FormAnswerService.get() });
         }
@@ -4673,17 +4673,21 @@ var ThingsService = (function () {
         var actual = this.previousStates.pop();
         var previous = this.previousStates.pop();
         if (!previous) {
-            previous = 'start';
+            previous = 'wellcome';
         }
         var stateParams = _.merge(this.$stateParams, { thingKey: previous });
         this.$state.go(this.$state.current.name, stateParams);
     };
-    ThingsService.prototype.addToStatesStack = function (state) {
-        var peek = this.previousStates[this.previousStates.length - 1];
-        if (peek == state) {
+    ThingsService.prototype.addToStatesStack = function (current) {
+        var isService = current.fields && current.fields.every(function (field) { return field.type == 'call-service'; });
+        if (isService) {
             return;
         }
-        this.previousStates.push(state);
+        var peek = this.previousStates[this.previousStates.length - 1];
+        if (peek == current.key) {
+            return;
+        }
+        this.previousStates.push(current.key);
     };
     return ThingsService;
 }());
