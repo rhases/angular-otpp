@@ -196,7 +196,7 @@ function ThingsController($scope, $timeout, $sce, $parse, $window, $filter, Thin
         }, 50);
     };
     $scope.back = function () {
-        $window.history.back();
+        ThingsService.back();
     };
     this.$onInit = function () {
         $timeout(function () {
@@ -4629,6 +4629,7 @@ var ThingsService = (function () {
         this.$state = $state;
         this.$stateParams = $stateParams;
         this.FormAnswerService = FormAnswerService;
+        this.previousStates = [];
     }
     ThingsService.prototype.load = function (transitions, things, actualThingKey, onStart, onStartThing, onFinish, onFinishThing) {
         this.onFinish = onFinish;
@@ -4644,6 +4645,7 @@ var ThingsService = (function () {
             }
         }
         var current = this.executionService.getCurrent();
+        this.addToStatesStack(current.key);
         if (onStartThing) {
             onStartThing({ thing: current, model: this.FormAnswerService.get() });
         }
@@ -4666,6 +4668,22 @@ var ThingsService = (function () {
             var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key });
             this.$state.go(this.$state.current.name, stateParams);
         }
+    };
+    ThingsService.prototype.back = function () {
+        var actual = this.previousStates.pop();
+        var previous = this.previousStates.pop();
+        if (!previous) {
+            previous = 'start';
+        }
+        var stateParams = _.merge(this.$stateParams, { thingKey: previous });
+        this.$state.go(this.$state.current.name, stateParams);
+    };
+    ThingsService.prototype.addToStatesStack = function (state) {
+        var peek = this.previousStates[this.previousStates.length - 1];
+        if (peek == state) {
+            return;
+        }
+        this.previousStates.push(state);
     };
     return ThingsService;
 }());

@@ -34,8 +34,8 @@ export class ThingsService {
       }
     }
     var current = this.executionService.getCurrent();
-
-    //onStartThing
+    this.addToStatesStack(current.key);
+    //onStartThingnpm
     if (onStartThing) {
       onStartThing({ thing: current, model: this.FormAnswerService.get() });
     }
@@ -59,7 +59,6 @@ export class ThingsService {
         this.onFinish({ model: this.FormAnswerService.get() });
       }
     } else {
-      this.addToStatesStack(nextThing.key);
       var stateParams = _.merge(this.$stateParams, { thingKey: nextThing.key })
       this.$state.go(this.$state.current.name, stateParams);
     }
@@ -69,7 +68,7 @@ export class ThingsService {
     let actual = this.previousStates.pop();
     let previous = this.previousStates.pop();
     if (!previous){
-      previous = 'start';
+      previous = 'wellcome';
     }
     var stateParams = _.merge(this.$stateParams, { thingKey: previous })
     this.$state.go(this.$state.current.name, stateParams);
