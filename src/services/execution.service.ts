@@ -57,6 +57,24 @@ export class ExecutionService {
     return this.getThing(actualThingKey);
   }
 
+  pathTo(target){
+    const transitionService = new TransitionsService(this.transitions, this.scope);
+    const stepsLimit = 30;
+    
+    var state: string = transitionService.getStartThing();
+    var states = [state];
+    while(state != target && state != 'end' && stepsLimit > 0){
+      state = transitionService.getNextThing()
+      states.push(state);
+    }
+    if(state != target){
+      // did not found a path
+      return [];
+    }
+    return states;
+  }
+  
+
   getCurrent(): Thing {
     return this.getThing(this.transitionService.current);
   }

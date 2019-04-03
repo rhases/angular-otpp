@@ -67,8 +67,11 @@ export class ThingsService {
   back() {
     let actual = this.previousStates.pop();
     let previous = this.previousStates.pop();
-    if (!previous){
-      previous = 'wellcome';
+    
+    if (!previous) {
+      this.previousStates = this.executionService.pathTo(actual);
+      actual = this.previousStates.pop();
+      previous = this.previousStates.pop();
     }
     var stateParams = _.merge(this.$stateParams, { thingKey: previous })
     this.$state.go(this.$state.current.name, stateParams);

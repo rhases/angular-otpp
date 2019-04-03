@@ -249,7 +249,7 @@ exports.default = ThingsController;
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"things-box\" ng-class=\"current.thingClass\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\" ng-bind-html=\"currentTitle\" ng-if=\"!!currentTitle\"></h2><h2 class=\"thing-title\" ng-bind-html=\"currentSubtitle\" ng-if=\"!!currentSubtitle\"></h2><p class=\"thing-text\" ng-bind-html=\"currentText\" ng-if=\"!!currentText\" ng-class=\"current.textClass\"></p><div class=\"thing-images\" ng-repeat=\"image in current.images\" ng-if=\"!!current.images\"><img class=\"thing-image\" ng-src=\"{{image.src}}\" alt=\"{{image.alt}}\" ng-class=\"image.class\"/></div><br class=\"hidden-xs\"/><span ng-if=\"!!current.video\"><otpp-video video-config=\"current.video\"></otpp-video></span><form class=\"form-vertical\" name=\"thingForm\" novalidate=\"\" ng-class=\"current.formClass\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-righ\"><div class=\"btn-group\" ng-hide=\"!startedValid &amp;&amp; current.immediate\" role=\"group\"><button class=\"pull-right btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\" ng-hide=\"current.disableNextButton\"> Próximo<i class=\"fa fa-caret-right\" ng-hide=\"!enableBackButton || current.disableBackButton\"></i></button><button class=\"pull-left btn btn-secondary btn-lg\" ng-click=\"back()\" ng-hide=\"!enableBackButton || current.disableBackButton\"> <i class=\"fa fa-caret-left\"></i></button></div></div></div></form></div></div></div>"
+module.exports = "<div class=\"things-box\" ng-class=\"current.thingClass\"><div class=\"row\"><div class=\"col-sm-12\"><h2 class=\"thing-title\" ng-bind-html=\"currentTitle\" ng-if=\"!!currentTitle\"></h2><h2 class=\"thing-title\" ng-bind-html=\"currentSubtitle\" ng-if=\"!!currentSubtitle\"></h2><p class=\"thing-text\" ng-bind-html=\"currentText\" ng-if=\"!!currentText\" ng-class=\"current.textClass\"></p><div class=\"thing-images\" ng-repeat=\"image in current.images\" ng-if=\"!!current.images\"><img class=\"thing-image\" ng-src=\"{{image.src}}\" alt=\"{{image.alt}}\" ng-class=\"image.class\"/></div><br class=\"hidden-xs\"/><span ng-if=\"!!current.video\"><otpp-video video-config=\"current.video\"></otpp-video></span><form class=\"form-vertical\" name=\"thingForm\" novalidate=\"\" ng-class=\"current.formClass\"><div class=\"thing-form\"><formly-form model=\"current.scope\" fields=\"current.fields\"></formly-form><br class=\"hidden-xs\"/><tips tips=\"current.tips.values\" image=\"current.tips.image\" values=\"current.scope\"></tips><br class=\"hidden-xs\" ng-show=\"current.tips &amp;&amp; current.tips.values.length &gt; 0\"/></div><div class=\"thing-button\"><div class=\"text-righ\"><div class=\"btn-group\" ng-hide=\"!startedValid &amp;&amp; current.immediate\" role=\"group\"><button class=\"pull-right btn btn-primary btn-lg\" ng-click=\"next()\" ng-disabled=\"thingForm.$invalid || thingForm.$pending\" ng-hide=\"current.disableNextButton\"> Próximo<span ng-hide=\"!enableBackButton || current.disableBackButton\">&nbsp;&nbsp;<i class=\"fa fa-caret-right\"></i></span></button><button class=\"pull-left btn btn-secondary btn-lg\" ng-click=\"back()\" ng-hide=\"!enableBackButton || current.disableBackButton\"> <i class=\"fa fa-caret-left\"></i></button></div></div></div></form></div></div></div>"
 
 /***/ }),
 /* 10 */
@@ -4673,7 +4673,10 @@ var ThingsService = (function () {
         var actual = this.previousStates.pop();
         var previous = this.previousStates.pop();
         if (!previous) {
-            previous = 'wellcome';
+            this.previousStates = this.executionService.pathTo(actual);
+            actual = this.previousStates.pop();
+            previous = this.previousStates.pop();
+            console.log(this.previousStates);
         }
         var stateParams = _.merge(this.$stateParams, { thingKey: previous });
         this.$state.go(this.$state.current.name, stateParams);
@@ -4740,6 +4743,20 @@ var ExecutionService = (function () {
     ExecutionService.prototype.go = function (actualThingKey) {
         this.transitionService.go(actualThingKey);
         return this.getThing(actualThingKey);
+    };
+    ExecutionService.prototype.pathTo = function (target) {
+        var transitionService = new transitions_service_1.TransitionsService(this.transitions, this.scope);
+        var stepsLimit = 30;
+        var state = transitionService.getStartThing();
+        var states = [state];
+        while (state != target && state != 'end' && stepsLimit > 0) {
+            state = transitionService.getNextThing();
+            states.push(state);
+        }
+        if (state != target) {
+            return [];
+        }
+        return states;
     };
     ExecutionService.prototype.getCurrent = function () {
         return this.getThing(this.transitionService.current);
