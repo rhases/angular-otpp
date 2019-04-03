@@ -4676,7 +4676,6 @@ var ThingsService = (function () {
             this.previousStates = this.executionService.pathTo(actual);
             actual = this.previousStates.pop();
             previous = this.previousStates.pop();
-            console.log(this.previousStates);
         }
         var stateParams = _.merge(this.$stateParams, { thingKey: previous });
         this.$state.go(this.$state.current.name, stateParams);
